@@ -24,7 +24,7 @@
                 <div class="lg:w-2/3">
                     <div class="mb-12 text-center">
                         <h1 class="text-3xl font-bold text-gray-800 md:text-4xl">Frequently Asked Question</h1>
-                        <div class="w-20 h-1 mx-auto mt-4 bg-blue-600 rounded"></div>
+                        <div class="w-20 h-1 mx-auto mt-4 rounded bg-primary"></div>
                     </div>
 
                     <div class="space-y-4">
@@ -56,65 +56,68 @@
 
                 <!-- Pengumuman Section (Right) -->
                 <div class="lg:w-1/3">
-                    <div class="p-6 bg-white shadow-lg rounded-xl">
-                        <h2 class="pl-4 mb-6 text-2xl font-bold text-gray-800 border-l-4 border-red-500">
-                            Pengumuman
-                        </h2>
+                    <div class="relative w-full max-w-3xl mx-auto mt-10">
+                        <div class="p-6 mt-10 bg-white shadow-lg rounded-xl">
+                            <h2 class="pl-4 mb-6 text-2xl font-bold text-gray-800 border-l-4 border-teal-700">
+                                Pengumuman
+                            </h2>
 
-                        <div class="space-y-4">
-                            <!-- Pengumuman 1 -->
-                            <div class="p-4 transition rounded-lg bg-gray-50 hover:bg-gray-100 group">
-                                <div class="flex items-start">
-                                    <div class="flex-shrink-0 p-2 mr-4 text-white bg-red-500 rounded-lg">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none"
-                                            viewBox="0 0 24 24" stroke="currentColor">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                d="M12 9v2m0 4h.01M5.07 19h13.86c1.54 0 2.5-1.67 1.73-3L13.73 4c-.77-1.33-2.69-1.33-3.46 0L3.34 16c-.77 1.33.19 3 1.73 3z" />
-                                        </svg>
+                            <div id="posterContainer"
+                                class="relative w-full h-[400px] mx-auto overflow-hidden shadow-lg rounded-xl">
+                                @foreach ($pengumumans as $index => $item)
+                                    <div
+                                        class="absolute inset-0 flex flex-col justify-start transition-opacity duration-1000 announcement
+                        {{ $index === 0 ? 'opacity-100' : 'opacity-0' }}">
+                                        <!-- Lightbox anchor with fixed aspect ratio container -->
+                                        <a href="{{ asset(Storage::url($item->gambar_url)) }}"
+                                            data-lightbox="pengumuman-gallery" data-title="{{ $item->judul }}">
+                                            <div class="relative w-full h-[340px] overflow-hidden">
+                                                <img src="{{ asset(Storage::url($item->gambar_url)) }}"
+                                                    alt="{{ $item->judul }}"
+                                                    class="object-cover w-full h-full transition-all duration-300 rounded-t-xl brightness-75 hover:brightness-100"
+                                                    style="object-position: center;">
+                                            </div>
+                                        </a>
+                                        <div
+                                            class="flex flex-col items-center justify-center px-4 py-3 text-center bg-white shadow-inner rounded-b-xl h-[60px]">
+                                            <h3 class="text-base font-semibold leading-snug text-gray-800">
+                                                {{ $item->judul }}</h3>
+                                        </div>
                                     </div>
-                                    <div>
-                                        <h3 class="font-semibold text-gray-800 transition group-hover:text-red-600">
-                                            Libur Akhir Semester
-                                        </h3>
-                                        <p class="mt-1 text-sm text-gray-600">
-                                            Kegiatan belajar mengajar akan diliburkan mulai tanggal 10–20 Juni 2025.
-                                        </p>
-                                        <span class="inline-block mt-2 text-xs text-gray-500">2 hari yang lalu</span>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Pengumuman 2 -->
-                            <div class="p-4 transition rounded-lg bg-gray-50 hover:bg-gray-100 group">
-                                <div class="flex items-start">
-                                    <div class="flex-shrink-0 p-2 mr-4 text-white bg-red-500 rounded-lg">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none"
-                                            viewBox="0 0 24 24" stroke="currentColor">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                d="M12 9v2m0 4h.01M5.07 19h13.86c1.54 0 2.5-1.67 1.73-3L13.73 4c-.77-1.33-2.69-1.33-3.46 0L3.34 16c-.77 1.33.19 3 1.73 3z" />
-                                        </svg>
-                                    </div>
-                                    <div>
-                                        <h3 class="font-semibold text-gray-800 transition group-hover:text-red-600">
-                                            Pengambilan Rapor
-                                        </h3>
-                                        <p class="mt-1 text-sm text-gray-600">
-                                            Pengambilan rapor santri akan dilaksanakan pada Sabtu, 22 Juni 2025.
-                                        </p>
-                                        <span class="inline-block mt-2 text-xs text-gray-500">1 minggu yang lalu</span>
-                                    </div>
-                                </div>
+                                @endforeach
                             </div>
                         </div>
 
-                        <a href="#"
-                            class="inline-flex items-center mt-6 text-sm font-medium text-red-600 hover:text-red-800">
-                            Lihat Semua Pengumuman
-                            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 ml-1" fill="none" viewBox="0 0 24 24"
-                                stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-                            </svg>
-                        </a>
+
+                        <div class="p-6 mt-10 bg-white shadow-lg rounded-xl">
+                            <h2 class="pl-4 mb-6 text-2xl font-bold text-gray-800 border-l-4 border-primary">
+                                Artikel Lainnya
+                            </h2>
+
+                            <div class="space-y-4">
+                                @foreach ($randomPosts as $post)
+                                    <a href="{{ route('informasi.artikel.show', $post->slug) }}"
+                                        class="block p-4 transition rounded-lg bg-gray-50 hover:bg-gray-100 group">
+                                        <div class="flex items-start gap-4">
+                                            <img src="{{ Storage::url($post->thumbnail) }}" alt="{{ $post->judul }}"
+                                                class="object-cover w-16 h-16 rounded group-hover:opacity-80">
+                                            <div class="flex-1">
+                                                <h4
+                                                    class="font-semibold text-gray-800 transition group-hover:text-blue-600">
+                                                    {{ Str::limit($post->judul, 60) }}
+                                                </h4>
+                                                <p class="mt-1 text-sm text-gray-600">
+                                                    {{ Str::limit(strip_tags($post->isi), 50) }}
+                                                </p>
+                                                <p class="mt-1 text-xs text-gray-500">
+                                                    {{ \Carbon\Carbon::parse($post->tanggal_publish)->format('d M Y') }}
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </a>
+                                @endforeach
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

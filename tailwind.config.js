@@ -16,7 +16,7 @@ export default {
             },
             colors: {
                 primary: "#E9A319", // dark navy
-                "primary-dark": "#044343", // darker
+                "primary-dark": "#0E8388", // darker
                 yellow: {
                     500: "#FBBF24",
                     600: "#F59E0B",

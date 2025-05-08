@@ -28,12 +28,12 @@
                     <!-- Visi -->
                     <section>
                         <div class="flex items-center mb-4 space-x-2">
-                            <svg class="w-6 h-6 text-primary" fill="currentColor" viewBox="0 0 20 20">
+                            <svg class="w-6 h-6 text-blue-950" fill="currentColor" viewBox="0 0 20 20">
                                 <path d="M4 2a2 2 0 00-2 2v14l6-3 6 3V4a2 2 0 00-2-2H4z" />
                             </svg>
-                            <h2 class="text-xl font-bold uppercase text-primary">Visi</h2>
+                            <h2 class="text-xl font-bold text-black uppercase">Visi</h2>
                         </div>
-                        <p class="leading-relaxed text-gray-700">
+                        <p class="leading-relaxed text-black">
                             Menjadi wadah Pendidikan danpembelajaran Al Quran dan Bahasa arab unggulan yang menghasilkan
                             generasi Muslim yangHafal Al Quran dengan Hafalan yang mutqin,berakhlak mulia
                             sertaMengamalkanajaran Islam sesuai dengan Al Quran dan As Sunnah dengan pemahaman para
@@ -44,12 +44,12 @@
                     <!-- Misi -->
                     <section>
                         <div class="flex items-center mb-4 space-x-2">
-                            <svg class="w-6 h-6 text-primary" fill="currentColor" viewBox="0 0 20 20">
+                            <svg class="w-6 h-6 text-blue-950" fill="currentColor" viewBox="0 0 20 20">
                                 <path d="M4 2a2 2 0 00-2 2v14l6-3 6 3V4a2 2 0 00-2-2H4z" />
                             </svg>
-                            <h2 class="text-xl font-bold uppercase text-primary">Misi</h2>
+                            <h2 class="text-xl font-bold text-black uppercase">Misi</h2>
                         </div>
-                        <ol class="space-y-2 leading-relaxed text-gray-700 list-decimal list-inside">
+                        <ol class="space-y-2 leading-relaxed text-black list-decimal list-inside">
                             <li>Memberikan pembelajaran Al-Qur’an dengan bacaan yang berstandar sanad yang diajarkan
                                 langsung oleh para masyayikh dan asatidz yang berkompeten.</li>
                             <li>Mengembangkan kemampuan siswa dalam berbahasa Arab secara lisan maupun tulisan, yang
@@ -75,27 +75,65 @@
 
             <!-- Sidebar Kabar Pondok -->
             <aside class="space-y-6">
-                <div class="p-6 bg-white rounded-lg shadow">
-                    <div class="flex items-center justify-between mb-4">
-                        <h3 class="text-lg font-semibold text-primary">Kabar Pondok</h3>
-                        <a href="#"
-                            class="px-3 py-1 text-sm text-white transition rounded bg-primary hover:bg-primary-dark">View
-                            More</a>
+                <div class="relative w-full max-w-3xl mx-auto ">
+                    <div class="p-6 mt-10 bg-white shadow-lg rounded-xl">
+                        <h2 class="pl-4 mb-6 text-2xl font-bold text-gray-800 border-l-4 border-red-500">
+                            Pengumuman
+                        </h2>
+
+                        <div id="posterContainer"
+                            class="relative w-full h-[400px] mx-auto overflow-hidden shadow-lg rounded-xl">
+                            @foreach ($pengumumans as $index => $item)
+                                <div
+                                    class="absolute inset-0 flex flex-col justify-start transition-opacity duration-1000 announcement
+                    {{ $index === 0 ? 'opacity-100' : 'opacity-0' }}">
+                                    <!-- Lightbox anchor with fixed aspect ratio container -->
+                                    <a href="{{ asset(Storage::url($item->gambar_url)) }}"
+                                        data-lightbox="pengumuman-gallery" data-title="{{ $item->judul }}">
+                                        <div class="relative w-full h-[340px] overflow-hidden">
+                                            <img src="{{ asset(Storage::url($item->gambar_url)) }}"
+                                                alt="{{ $item->judul }}"
+                                                class="object-cover w-full h-full transition-all duration-300 rounded-t-xl brightness-75 hover:brightness-100"
+                                                style="object-position: center;">
+                                        </div>
+                                    </a>
+                                    <div
+                                        class="flex flex-col items-center justify-center px-4 py-3 text-center bg-white shadow-inner rounded-b-xl h-[60px]">
+                                        <h3 class="text-base font-semibold leading-snug text-gray-800">
+                                            {{ $item->judul }}</h3>
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
                     </div>
 
-                    <div class="space-y-5">
-                        <div>
-                            <h4 class="font-semibold text-gray-800 text-md">Jiwa dalam Menuntut Ilmu</h4>
-                            <p class="mt-1 text-sm text-gray-600">Dalam perjalanan menuntut ilmu, adab adalah kunci utama...
-                            </p>
-                            <p class="mt-2 text-xs text-gray-400">Sun, 27 April 2025 | 7:53</p>
-                        </div>
-                        <hr>
-                        <div>
-                            <h4 class="font-semibold text-gray-800 text-md">Ujian Pendidikan Kesetaraan</h4>
-                            <p class="mt-1 text-sm text-gray-600">Santri mengikuti ujian dengan penuh semangat dan
-                                kedisiplinan...</p>
-                            <p class="mt-2 text-xs text-gray-400">Sun, 27 April 2025 | 8:00</p>
+
+                    <div class="p-6 mt-10 bg-white shadow-lg rounded-xl">
+                        <h2 class="pl-4 mb-6 text-2xl font-bold text-gray-800 border-l-4 border-blue-600">
+                            Artikel Lainnya
+                        </h2>
+
+                        <div class="space-y-4">
+                            @foreach ($randomPosts as $post)
+                                <a href="{{ route('informasi.artikel.show', $post->slug) }}"
+                                    class="block p-4 transition rounded-lg bg-gray-50 hover:bg-gray-100 group">
+                                    <div class="flex items-start gap-4">
+                                        <img src="{{ Storage::url($post->thumbnail) }}" alt="{{ $post->judul }}"
+                                            class="object-cover w-16 h-16 rounded group-hover:opacity-80">
+                                        <div class="flex-1">
+                                            <h4 class="font-semibold text-gray-800 transition group-hover:text-blue-600">
+                                                {{ Str::limit($post->judul, 60) }}
+                                            </h4>
+                                            <p class="mt-1 text-sm text-gray-600">
+                                                {{ Str::limit(strip_tags($post->isi), 50) }}
+                                            </p>
+                                            <p class="mt-1 text-xs text-gray-500">
+                                                {{ \Carbon\Carbon::parse($post->tanggal_publish)->format('d M Y') }}
+                                            </p>
+                                        </div>
+                                    </div>
+                                </a>
+                            @endforeach
                         </div>
                     </div>
                 </div>

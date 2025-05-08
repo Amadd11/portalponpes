@@ -85,7 +85,7 @@
     <div x-show="open" x-transition x-cloak @click.away="open = false"
         class="fixed inset-y-0 z-40 px-6 pt-24 pb-6 overflow-y-auto bg-white backdrop-blur-sm md:hidden w-[50vw] left-0 rounded-r-3xl"
         x-data="{ profilOpen: false, infoOpen: false }">
-        <ul class="flex flex-col space-y-2 text-primary">
+        <ul class="flex flex-col space-y-2 ">
             <li>
                 <a href="{{ url('/') }}"
                     class="py-2 block border-b {{ request()->is('/') ? 'text-yellow-600 font-semibold' : '' }}">

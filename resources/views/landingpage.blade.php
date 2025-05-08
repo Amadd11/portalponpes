@@ -81,7 +81,8 @@
             <div class="grid items-start grid-cols-1 gap-8 md:grid-cols-2">
                 <!-- Kata Pengantar -->
                 <div>
-                    <h3 class="mb-6 text-2xl font-bold text-center text-gray-800">Kata Pengantar</h3>
+                    <h3 class="pl-4 mb-6 text-2xl font-bold text-gray-800 border-l-4 border-teal-700">Kata Pengantar
+                    </h3>
                     <div class="space-y-4 text-justify text-gray-700 max-w-none">
                         <p class="text-center"><strong>بسم الله الرحمن الرحيم</strong></p>
                         <p>Assalamu’alaikum Warahmatullahi Wabarakatuh</p>
@@ -100,7 +101,7 @@
 
                 <!-- Pengumuman Section with Lightbox -->
                 <div class="mt-10 md:pl-6 md:mt-0">
-                    <h2 class="pl-4 mb-6 text-2xl font-bold text-gray-800 border-l-4 border-red-500">
+                    <h2 class="pl-4 mb-6 text-2xl font-bold text-gray-800 border-l-4 border-primary">
                         Pengumuman
                     </h2>
 
@@ -128,31 +129,6 @@
                     </div>
                 </div>
 
-                <script>
-                    // JavaScript untuk otomatis mengganti pengumuman
-                    document.addEventListener('DOMContentLoaded', function() {
-                        const items = document.querySelectorAll(".announcement");
-                        if (items.length > 0) {
-                            let current = 0;
-
-                            const rotateAnnouncements = () => {
-                                items[current].classList.remove("opacity-100");
-                                items[current].classList.add("opacity-0");
-
-                                current = (current + 1) % items.length;
-
-                                items[current].classList.remove("opacity-0");
-                                items[current].classList.add("opacity-100");
-                            };
-
-                            const intervalId = setInterval(rotateAnnouncements, 5000);
-
-                            // Cleanup on component unmount
-                            return () => clearInterval(intervalId);
-                        }
-                    });
-                </script>
-
 
             </div>
         </div>
@@ -163,7 +139,7 @@
     <section class="px-4 py-12 bg-gray-100">
         <div class="max-w-screen-xl mx-auto">
             <div class="flex items-center justify-between mb-6">
-                <h2 class="text-xl font-bold text-gray-800 md:text-2xl">Berita Terbaru</h2>
+                <h2 class="pl-4 text-2xl font-bold text-gray-800 border-l-4 border-teal-700">Berita Terbaru</h2>
                 <a href="#" class="text-sm font-medium text-teal-600 hover:underline hover:text-teal-800">Lihat Semua
                     Berita →</a>
             </div>
@@ -188,7 +164,7 @@
     <!-- Auto-Scrolling Gallery -->
     <section class="px-4 py-12 bg-white">
         <div class="max-w-screen-xl px-4 mx-auto">
-            <h2 class="mb-6 text-xl font-bold text-center text-gray-800 md:text-2xl">Galeri Kami</h2>
+            <h2 class="mb-6 text-2xl font-bold text-center text-gray-800 md:text-2xl">Galeri Kami</h2>
 
             <div class="relative overflow-hidden">
                 <div class="absolute inset-y-0 left-0 z-10 w-12 bg-gradient-to-r from-white to-transparent"></div>
@@ -229,29 +205,89 @@
         </div>
     </section>
 
+    <!-- Fasilitas Section -->
+    <section class="py-16 text-white bg-gradient-to-b bg-primary">
+        <div class="max-w-6xl px-4 mx-auto">
+            <!-- Header -->
+            <div class="mb-10 text-center">
+                <h2 class="mb-2 text-3xl font-bold">Fasilitas</h2>
+                <p class="text-sm opacity-80">Fasilitas Madrasah Ibnu Al-Awadhi Al-Islamiyah</p>
+                <div class="w-16 h-1 mx-auto mt-4 bg-white rounded"></div>
+            </div>
+
+            <!-- Facilities Grid -->
+            <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+                @foreach ($fasilitas as $item)
+                    <div class="overflow-hidden bg-white rounded-lg shadow-lg group">
+                        <div class="relative p-3">
+                            <div class="aspect-[4/3] overflow-hidden rounded-xl"> <!-- 4:3 ratio -->
+                                <img src="{{ asset(Storage::url($item->gambar_url)) }}"
+                                    alt="{{ $item->nama_fasilitas }}"
+                                    class="object-cover w-full h-full transition-transform duration-300 group-hover:scale-105">
+                            </div>
+                        </div>
+
+                        <div class="px-4 pb-4">
+                            <h3 class="mb-1 text-base font-bold text-gray-800">
+                                {{ $item->nama_fasilitas }}
+                            </h3>
+                            <p class="text-sm text-gray-600 line-clamp-3">
+                                {{ $item->deskripsi }}
+                            </p>
+                        </div>
+                    </div>
+                @endforeach
+            </div>
+
+            <!-- Button -->
+            <div class="flex justify-center mt-10">
+                <a href="#"
+                    class="px-6 py-2 text-sm font-semibold text-white transition bg-teal-600 rounded-full hover:bg-teal-700">
+                    Lihat Semua
+                </a>
+            </div>
+        </div>
+    </section>
+
     <!-- FAQ Section -->
     <section class="py-16 bg-gray-100">
         <div class="max-w-6xl px-4 mx-auto">
             <div class="mb-10 text-center">
-                <h2 class="mb-2 text-3xl font-bold text-gray-800">Pertanyaan Yang Sering Diajukan</h2>
+                <h2 class="mb-2 text-2xl font-bold text-gray-800">Pertanyaan Yang Sering Diajukan</h2>
                 <p class="text-sm opacity-80">Berikut adalah beberapa pertanyaan yang sering diajukan oleh para Orang Tua
                 </p>
                 <div class="w-16 mx-auto mt-4 rounded bg-primary"></div>
             </div>
 
             <div class="space-y-4" x-data="{ openFAQ: null }">
-                @foreach ($faqs as $faq)
-                    <div class="bg-white rounded-lg shadow-md">
-                        <button @click="openFAQ === {{ $faq->id }} ? openFAQ = null : openFAQ = {{ $faq->id }}"
-                            class="w-full px-6 py-4 text-xl font-semibold text-left text-gray-800 bg-gray-100 rounded-t-lg hover:bg-gray-200 focus:outline-none">
-                            {{ $faq->question }}
-                        </button>
-                        <div x-show="openFAQ === {{ $faq->id }}" x-collapse
-                            class="p-6 text-gray-700 rounded-b-lg bg-gray-50">
-                            <p>{{ $faq->answer }}</p>
+                <!-- Pertanyaan dan Jawaban FAQ -->
+                <div x-data="{ openFAQ: null }"> <!-- Menginisialisasi Alpine.js dengan openFAQ -->
+                    @foreach ($faqs as $faq)
+                        <div class="bg-white rounded-lg shadow-md">
+                            <!-- Tombol Pertanyaan -->
+                            <button @click="openFAQ = openFAQ === {{ $faq->id }} ? null : {{ $faq->id }}"
+                                class="flex items-center justify-between w-full p-6 text-left">
+                                <h3 class="text-lg font-semibold text-gray-800 md:text-xl">
+                                    {{ $faq->question }}
+                                </h3>
+                                <svg xmlns="http://www.w3.org/2000/svg"
+                                    class="w-6 h-6 text-gray-500 transition-transform duration-300"
+                                    :class="{ 'transform rotate-180': openFAQ === {{ $faq->id }} }" fill="none"
+                                    viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M19 9l-7 7-7-7" />
+                                </svg>
+                            </button>
+
+                            <!-- Jawaban -->
+                            <div x-show="openFAQ === {{ $faq->id }}" x-collapse
+                                class="p-6 text-gray-700 rounded-b-lg bg-gray-50">
+                                <p>{{ $faq->answer }}</p>
+                            </div>
                         </div>
-                    </div>
-                @endforeach
+                    @endforeach
+                </div>
+
             </div>
         </div>
     </section>
@@ -262,6 +298,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/js/lightbox.min.js"></script>
     <script src="{{ asset('js/swiper.js') }}"></script>
     <script src="{{ asset('js/lightbox.js') }}"></script>
+    <script src="{{ asset('js/pengumuman.js') }}"></script>
 @endpush
 
 @push('auto-scroll-gallery')

@@ -18,7 +18,8 @@
     <!-- Fasilitas Section -->
     <section class="px-8 py-12 bg-gray-50">
         <div class="container px-6 mx-auto">
-            <h2 class="mb-8 text-3xl font-bold text-center text-primary">Fasilitas Pondok</h2>
+            <h2 class="pl-4 mb-6 text-2xl font-bold text-gray-800 uppercase border-l-4 border-teal-700">Fasilitas Pondok
+            </h2>
 
             <div class="grid grid-cols-1 gap-6 md:grid-cols-4">
                 <!-- Card 1 -->
@@ -26,7 +27,7 @@
                     <div class="p-6 transition bg-white rounded-lg shadow hover:shadow-lg">
                         <img src="{{ asset(Storage::url($item->gambar_url)) }}" alt="Fasilitas 1"
                             class="object-cover w-full h-40 mb-4 rounded-md">
-                        <h3 class="mb-2 text-xl font-semibold text-primary">{{ $item->nama_fasilitas }}</h3>
+                        <h3 class="mb-2 text-xl font-semibold text-black">{{ $item->nama_fasilitas }}</h3>
                         <p class="text-sm text-gray-600">{{ $item->deskripsi }}</p>
                     </div>
                 @endforeach

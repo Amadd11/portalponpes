@@ -81,7 +81,7 @@
                         <div>
                             <label for="kategori" class="block text-sm font-medium text-gray-700">Kategori</label>
                             <select id="kategori" name="kategori"
-                                class="block w-full px-4 py-2 mt-1 border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-red-500">
+                                class="block w-full px-4 py-2 mt-1 border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-primary">
                                 <option value="">Semua Kategori</option>
                                 @foreach ($categories as $category)
                                     <option value="{{ $category->id }}"
@@ -96,23 +96,23 @@
                         <div>
                             <label for="q" class="block text-sm font-medium text-gray-700">Pencarian</label>
                             <input type="text" id="q" name="q" value="{{ request('q') }}"
-                                class="block w-full px-4 py-2 mt-1 border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-red-500"
+                                class="block w-full px-4 py-2 mt-1 border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-primary"
                                 placeholder="Cari artikel...">
                         </div>
 
                         <!-- Filter Button -->
                         <div class="pt-2">
                             <button type="submit"
-                                class="w-full px-6 py-2 text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:outline-none">
+                                class="w-full px-6 py-2 text-white bg-teal-700 rounded-lg hover:bg-teal-800 focus:outline-none">
                                 Cari
                             </button>
                         </div>
                     </form>
 
-
+                    {{-- SideBar --}}
                     <div class="relative w-full max-w-3xl mx-auto mt-10">
                         <div class="p-6 mt-10 bg-white shadow-lg rounded-xl">
-                            <h2 class="pl-4 mb-6 text-2xl font-bold text-gray-800 border-l-4 border-red-500">
+                            <h2 class="pl-4 mb-6 text-2xl font-bold text-gray-800 border-l-4 border-teal-700">
                                 Pengumuman
                             </h2>
 
@@ -140,52 +140,11 @@
                                     </div>
                                 @endforeach
                             </div>
-
-
-                            <script>
-                                // JavaScript untuk otomatis mengganti pengumuman
-                                document.addEventListener('DOMContentLoaded', function() {
-                                    const items = document.querySelectorAll(".announcement");
-                                    if (items.length > 0) {
-                                        let current = 0;
-
-                                        const rotateAnnouncements = () => {
-                                            items[current].classList.remove("opacity-100");
-                                            items[current].classList.add("opacity-0");
-
-                                            current = (current + 1) % items.length;
-
-                                            items[current].classList.remove("opacity-0");
-                                            items[current].classList.add("opacity-100");
-                                        };
-
-                                        const intervalId = setInterval(rotateAnnouncements, 5000);
-
-                                        // Cleanup on component unmount
-                                        return () => clearInterval(intervalId);
-                                    }
-                                });
-                            </script>
                         </div>
-
-                        <script>
-                            const announcements = document.querySelectorAll(".announcement");
-                            let currentIndex = 0;
-
-                            setInterval(() => {
-                                announcements[currentIndex].classList.remove("opacity-100");
-                                announcements[currentIndex].classList.add("opacity-0");
-
-                                currentIndex = (currentIndex + 1) % announcements.length;
-
-                                announcements[currentIndex].classList.remove("opacity-0");
-                                announcements[currentIndex].classList.add("opacity-100");
-                            }, 3000);
-                        </script>
 
 
                         <div class="p-6 mt-10 bg-white shadow-lg rounded-xl">
-                            <h2 class="pl-4 mb-6 text-2xl font-bold text-gray-800 border-l-4 border-blue-600">
+                            <h2 class="pl-4 mb-6 text-2xl font-bold text-gray-800 border-l-4 border-primary">
                                 Artikel Lainnya
                             </h2>
 
@@ -219,3 +178,7 @@
             </div>
     </section>
 @endsection
+
+@push('scripts')
+    <script src="{{ asset('js/pengumuman.js') }}"></script>
+@endpush

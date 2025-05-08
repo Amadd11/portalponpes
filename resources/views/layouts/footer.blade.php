@@ -4,8 +4,8 @@
         <div class="flex flex-col space-y-4 lg:w-1/2">
             <div class="flex items-center space-x-4">
                 <img src="{{ asset('assets/images/logo-ponpes.png') }}" alt="Logo SLB" class="w-20 h-20">
-                <h3 class="text-2xl font-bold text-gray-300">Madrasah Ibnu
-                    <br>Al-Awadhi Al-Islamiyah
+                <h3 class="text-2xl font-bold text-gray-300">Yayasan Maqroah Imam Syatibi
+                    <br>
                 </h3>
             </div>
             <iframe
@@ -19,13 +19,13 @@
             <!-- Lokasi -->
             <div>
                 <h4 class="mb-2 text-xl font-bold">Lokasi Sekolah</h4>
-                <p><i class="mr-2 fas fa-map-marker-alt"></i>Jln. Lintas Curup Muara Aman, Ds. Lemeu Pit, Kec.
-                    Lebong Sakti, Kabupaten Lebong, Bengkulu 39264</p>
+                <p><i class="mr-2 fas fa-map-marker-alt"></i>Jl. Tidore No.56 Jombang, Kec. Ciputat, Kota Tangerang
+                    Selatan, Banten 15414</p>
             </div>
             <!-- Kontak -->
             <div class="mt-6">
                 <h4 class="mb-2 text-xl font-bold">Kontak Kami</h4>
-                <p><i class="mr-2 fas fa-envelope"></i> slbn1lebong@gmail.com</p>
+                <p><i class="mr-2 fas fa-envelope"></i> maqroahimamsyatibi@gmail.com</p>
                 <p><i class="mr-2 fas fa-phone"></i> 0842 815131</p>
             </div>
 
@@ -46,6 +46,6 @@
 
     <!-- Copyright -->
     <div class="mt-8 text-sm text-center text-gray-400">
-        &copy; {{ date('Y') }} SLB Negeri 1 Lebong. All rights reserved.
+        &copy; {{ date('Y') }} Yayasan Maqroah Imam Syatibi. All rights reserved.
     </div>
 </footer>
