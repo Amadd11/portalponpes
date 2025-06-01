@@ -2,10 +2,12 @@
 <div class="flex justify-between px-20 py-2 text-base text-white bg-primary">
     <div class="flex items-center gap-2">
         <img src="{{ asset('assets/images/logo-ponpes.png') }}" alt="Logo" class="h-10">
-        <span class="font-semibold uppercase font-poppins ">Yayasan Maqroah
+        <!-- Ubah ukuran h-10 ke h-20 -->
+        <span class="font-semibold uppercase font-poppins">Yayasan Maqroah
             <br>Imam Syatibi
         </span>
     </div>
+
     <div class="items-center hidden gap-4 md:flex">
         <div class="flex items-center gap-1">
             <span>📞</span> <span>0821 4390 1334</span>

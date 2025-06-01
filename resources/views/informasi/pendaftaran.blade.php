@@ -16,6 +16,38 @@
         </div>
     </section>
 
+    <!-- Masa Pendaftaran Section -->
+    <section class="px-12 py-12 bg-white">
+        <h2 class="text-3xl font-bold text-center text-gray-800">Masa Pendaftaran T.P. 2025/2026</h2>
+        <div class="grid grid-cols-1 gap-8 mt-8 md:grid-cols-3">
+            <!-- Gelombang 1 -->
+            <div class="flex flex-col items-center justify-center p-6 text-white bg-blue-900 shadow-lg rounded-xl">
+                <div class="text-4xl">
+                    <i class="fas fa-calendar-day"></i>
+                </div>
+                <h3 class="mt-4 text-xl font-semibold text-yellow-600">Gelombang 1</h3>
+                <p class="text-center">1 Oktober - 31 Desember 2024</p>
+            </div>
+
+            <!-- Gelombang 2 -->
+            <div class="flex flex-col items-center justify-center p-6 text-white bg-blue-900 shadow-lg rounded-xl">
+                <div class="text-4xl">
+                    <i class="fas fa-calendar-day"></i>
+                </div>
+                <h3 class="mt-4 text-xl font-semibold text-yellow-600">Gelombang 2</h3>
+                <p class="text-center">1 Januari - 31 Maret 2025</p>
+            </div>
+
+            <!-- Gelombang 3 -->
+            <div class="flex flex-col items-center justify-center p-6 text-white bg-blue-900 shadow-lg rounded-xl">
+                <div class="text-4xl">
+                    <i class="fas fa-calendar-day"></i>
+                </div>
+                <h3 class="mt-4 text-xl font-semibold text-yellow-600">Gelombang 3</h3>
+                <p class="text-center">1 April - 25 Juni 2025</p>
+            </div>
+        </div>
+    </section>
     <!-- Main Content -->
     <section class="px-12 py-12 bg-gray-50 ">
         <div class="container grid grid-cols-1 gap-8 mx-auto md:grid-cols-3">

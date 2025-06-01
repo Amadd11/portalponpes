@@ -40,11 +40,11 @@
 
                                     <div class="flex items-center justify-between mt-auto">
                                         <span
-                                            class="inline-block px-3 py-1 text-xs font-semibold text-white bg-blue-600 rounded">
+                                            class="inline-block px-3 py-1 text-xs font-semibold text-white bg-teal-700 rounded">
                                             {{ $artikel->category->nama_category ?? 'Umum' }}
                                         </span>
                                         <a href="{{ route('berita.show', $artikel->slug) }}"
-                                            class="inline-flex items-center text-sm font-medium text-blue-600 hover:text-blue-800">
+                                            class="inline-flex items-center text-sm font-medium text-blue-800 hover:text-blue-800">
                                             Baca Selengkapnya
                                             <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 ml-1" fill="none"
                                                 viewBox="0 0 24 24" stroke="currentColor">

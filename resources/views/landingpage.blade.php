@@ -1,13 +1,28 @@
 @extends('layouts.app')
 
 @section('content')
+    <!-- Pop-up Brosur Pendaftaran -->
+    <div id="popup" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-70">
+        <div class="bg-white rounded-xl shadow-2xl w-[95%] max-w-3xl mx-4 md:mx-8 animate-fadeIn">
+            <img src="{{ asset('assets/images/brosur-pendaftaran.jpg') }}" alt="Informasi Pop-up"
+                class="w-full rounded-t-xl object-cover max-h-[500px]">
+            <div class="p-6 space-y-4 text-center">
+                <p class="text-gray-600">Silakan lihat brosur untuk informasi lengkap mengenai pendaftaran.</p>
+                <button id="closePopup" class="px-6 py-2 text-white transition bg-blue-600 rounded-md hover:bg-blue-700">
+                    OK
+                </button>
+            </div>
+        </div>
+    </div>
+
     <!-- Hero Section -->
     <section class="relative bg-black">
         <div class="swiper-container relative h-[570px]">
             <div class="swiper-wrapper">
                 @foreach ($images as $bg)
                     <div class="relative swiper-slide">
-                        <img src="{{ asset(Storage::url($bg->path)) }}" class="object-cover w-full h-[570px]" alt="">
+                        <img src="{{ asset(Storage::url($bg->path)) }}" class="object-cover w-full h-[570px]"
+                            alt="">
                     </div>
                 @endforeach
             </div>
@@ -294,11 +309,17 @@
 @endsection
 
 @push('scripts')
+    <!-- Pastikan jQuery dimuat terlebih dahulu -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- Kemudian tambahkan Lightbox -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/css/lightbox.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/js/lightbox.min.js"></script>
+
+    <!-- Skrip tambahan lainnya -->
     <script src="{{ asset('js/swiper.js') }}"></script>
-    <script src="{{ asset('js/lightbox.js') }}"></script>
     <script src="{{ asset('js/pengumuman.js') }}"></script>
+    <script src="{{ asset('js/popup.js') }}"></script>
 @endpush
 
 @push('auto-scroll-gallery')
