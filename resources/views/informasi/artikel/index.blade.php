@@ -8,7 +8,7 @@
                 <!-- Artikel Section (Left) -->
                 <div class="lg:w-2/3">
                     <div class="flex items-center justify-between mb-8">
-                        <h2 class="pl-4 text-3xl font-bold text-gray-800 border-l-4 border-blue-600">
+                        <h2 class="pl-4 text-3xl font-bold text-gray-800 border-l-4 border-teal-700">
                             Artikel & Kajian Terbaru
                         </h2>
                     </div>
