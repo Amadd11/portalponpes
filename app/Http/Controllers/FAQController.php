@@ -20,6 +20,10 @@ class FAQController extends Controller
             ->limit(5)
             ->get();
 
-        return view('faq.index', compact('faqs', 'pengumumans', 'randomPosts'));
+        return view('faq.index', compact(
+            'faqs',
+            'pengumumans',
+            'randomPosts'
+        ));
     }
 }

@@ -15,6 +15,7 @@ class InformasiPendaftaran extends Model
         'alur_pendaftaran',
         'biaya_pendaftaran',
         'link_pendaftaran',
+        'brosur_pendaftaran',
         'lampiran',
     ];
 }

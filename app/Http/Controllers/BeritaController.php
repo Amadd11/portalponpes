@@ -28,7 +28,7 @@ class BeritaController extends Controller
             ->inRandomOrder()
             ->limit(5)
             ->get();
-            
+
         $pengumumans = Pengumuman::latest()->take(5)->get();
 
 
@@ -53,10 +53,12 @@ class BeritaController extends Controller
             ->limit(5)
             ->get();
 
+        $pengumumans = Pengumuman::latest()->take(5)->get();
 
         return view('informasi.artikel.show', compact(
             'artikel',
             'randomPosts',
+            'pengumumans'
         ));
     }
 }

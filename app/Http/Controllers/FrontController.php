@@ -7,6 +7,7 @@ use App\Models\CarouselImages;
 use App\Models\FAQ;
 use App\Models\Fasilitas;
 use App\Models\Gallery;
+use App\Models\GelombangPendaftaran;
 use App\Models\InformasiPendaftaran;
 use App\Models\Pengumuman;
 use App\Models\ProgramUnggulan;
@@ -24,7 +25,11 @@ class FrontController extends Controller
         $faqs = FAQ::all();
         $programUnggulan = ProgramUnggulan::all();
         $pengumumans = Pengumuman::latest()->take(5)->get();
-        $informasiPendaftaran = InformasiPendaftaran::latest()->value('link_pendaftaran');
+        $informasiPendaftaran = InformasiPendaftaran::latest()
+            ->select('link_pendaftaran', 'brosur_pendaftaran')
+            ->first(); // Mengambil data pertama yang terbaru
+        $gelombangAktif = GelombangPendaftaran::where('is_active', true)->first();
+
 
         return view('landingpage', compact(
             'fasilitas',
@@ -34,7 +39,8 @@ class FrontController extends Controller
             'beritas',
             'images',
             'programUnggulan',
-            'informasiPendaftaran'
+            'informasiPendaftaran',
+            'gelombangAktif'
         ));
     }
 }

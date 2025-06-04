@@ -20,34 +20,25 @@
     <section class="px-12 py-12 bg-white">
         <h2 class="text-3xl font-bold text-center text-gray-800">Masa Pendaftaran T.P. 2025/2026</h2>
         <div class="grid grid-cols-1 gap-8 mt-8 md:grid-cols-3">
-            <!-- Gelombang 1 -->
-            <div class="flex flex-col items-center justify-center p-6 text-white bg-blue-900 shadow-lg rounded-xl">
-                <div class="text-4xl">
-                    <i class="fas fa-calendar-day"></i>
+            @foreach ($gelombangs as $item)
+                <div class="flex flex-col items-center justify-center p-6 text-white bg-blue-900 shadow-lg rounded-xl">
+                    <div class="text-4xl">
+                        <i class="fas fa-calendar-day"></i>
+                    </div>
+                    <h3 class="mt-4 text-xl font-semibold text-yellow-600">{{ $item->nama_gelombang }}</h3>
+                    <p class="text-center">
+                        {{ \Carbon\Carbon::parse($item->tanggal_mulai)->translatedFormat('j F') }} -
+                        {{ \Carbon\Carbon::parse($item->tanggal_selesai)->translatedFormat('j F Y') }}
+                    </p>
                 </div>
-                <h3 class="mt-4 text-xl font-semibold text-yellow-600">Gelombang 1</h3>
-                <p class="text-center">1 Oktober - 31 Desember 2024</p>
-            </div>
-
-            <!-- Gelombang 2 -->
-            <div class="flex flex-col items-center justify-center p-6 text-white bg-blue-900 shadow-lg rounded-xl">
-                <div class="text-4xl">
-                    <i class="fas fa-calendar-day"></i>
-                </div>
-                <h3 class="mt-4 text-xl font-semibold text-yellow-600">Gelombang 2</h3>
-                <p class="text-center">1 Januari - 31 Maret 2025</p>
-            </div>
-
-            <!-- Gelombang 3 -->
-            <div class="flex flex-col items-center justify-center p-6 text-white bg-blue-900 shadow-lg rounded-xl">
-                <div class="text-4xl">
-                    <i class="fas fa-calendar-day"></i>
-                </div>
-                <h3 class="mt-4 text-xl font-semibold text-yellow-600">Gelombang 3</h3>
-                <p class="text-center">1 April - 25 Juni 2025</p>
-            </div>
+            @endforeach
         </div>
     </section>
+
+
+
+
+
     <!-- Main Content -->
     <section class="px-12 py-12 bg-gray-50 ">
         <div class="container grid grid-cols-1 gap-8 mx-auto md:grid-cols-3">
@@ -60,7 +51,7 @@
 
                 @if ($informasiPendaftaran)
                     <!-- Syarat Pendaftaran -->
-                    <div class="mb-6">
+                    <div class="mb-3">
                         <h3 class="mb-2 text-xl font-semibold text-gray-800">📌 Syarat Pendaftaran</h3>
                         <div class="prose text-gray-700 max-w-none">
                             {!! $informasiPendaftaran->syarat_pendaftaran !!}
@@ -68,16 +59,16 @@
                     </div>
 
                     <!-- Alur Pendaftaran -->
-                    <div class="mb-6">
-                        <h3 class="mb-2 text-xl font-semibold text-gray-800">🛤️ Alur Pendaftaran</h3>
+                    <div class="mb-3">
+                        <h3 class="mb-2 text-xl font-semibold text-gray-800">Alur Pendaftaran</h3>
                         <div class="prose text-gray-700 max-w-none">
                             {!! $informasiPendaftaran->alur_pendaftaran !!}
                         </div>
                     </div>
 
                     <!-- Biaya Pendaftaran -->
-                    <div class="mb-6">
-                        <h3 class="mb-2 text-xl font-semibold text-gray-800">💰 Biaya Pendaftaran</h3>
+                    <div class="mb-3">
+                        <h3 class="mb-2 text-xl font-semibold text-gray-800">Biaya Pendaftaran</h3>
                         <div class="prose text-gray-700 max-w-none">
                             {!! $informasiPendaftaran->biaya_pendaftaran !!}
                         </div>
@@ -102,18 +93,27 @@
                         </div>
                     @endif
 
-
-                    <!-- Tombol Daftar -->
                     @if ($informasiPendaftaran->link_pendaftaran)
-                        <div class="mt-10 text-center">
-                            <a href="{{ $informasiPendaftaran->link_pendaftaran }}" target="_blank"
-                                class="inline-block px-6 py-3 text-white transition bg-yellow-600 rounded-lg hover:bg-yellow-700">
-                                Daftar Sekarang
-                            </a>
+                        <div class="px-4 mx-auto">
+                            <div
+                                class="p-6 text-center shadow-md rounded-xl bg-gradient-to-br from-orange-100 via-yellow-100 to-lime-100">
+                                <h2 class="text-2xl font-extrabold tracking-tight text-gray-800">
+                                    Siap Menjadi Santri?
+                                </h2>
+                                <p class="mt-3 text-base text-gray-800">
+                                    Daftarkan dirimu sekarang dan bergabung bersama keluarga besar
+                                    <span class="font-semibold text-orange-600">Maqroah Imam Syatibi</span>.
+                                </p>
+                                <a href="{{ $informasiPendaftaran->link_pendaftaran }}"
+                                    class="inline-flex items-center gap-2 px-5 py-2.5 mt-6 text-sm font-medium text-white transition-all duration-300 rounded-full shadow bg-gradient-to-r from-orange-400 to-yellow-400 hover:from-orange-500 hover:to-yellow-500">
+                                    <i class="fas fa-arrow-right"></i>
+                                    Daftar Sekarang
+                                </a>
+                            </div>
                         </div>
                     @endif
                 @else
-                    <p class="text-gray-500">Informasi pendaftaran belum tersedia.</p>
+                    <p class="text-gray-500">Pendaftaran Belum Dibuka</p>
                 @endif
             </div>
 

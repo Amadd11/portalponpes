@@ -1,5 +1,5 @@
 {{-- Top Contact Bar --}}
-<div class="flex justify-between px-20 py-2 text-base text-white bg-primary">
+<div class="flex justify-between px-20 py-2 text-base text-white bg-gradient-to-r from-orange-400 to-yellow-400">
     <div class="flex items-center gap-2">
         <img src="{{ asset('assets/images/logo-ponpes.png') }}" alt="Logo" class="h-10">
         <!-- Ubah ukuran h-10 ke h-20 -->

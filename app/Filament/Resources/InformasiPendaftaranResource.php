@@ -18,7 +18,9 @@ class InformasiPendaftaranResource extends Resource
 {
     protected static ?string $model = InformasiPendaftaran::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-clipboard-document-list';
+
+    protected static ?string $navigationLabel = 'Informasi Pendaftaran';
 
     public static function form(Form $form): Form
     {
@@ -41,11 +43,17 @@ class InformasiPendaftaranResource extends Resource
                     ->url()
                     ->placeholder('https://...')
                     ->columnSpanFull(),
+                Forms\Components\FileUpload::make('brosur_pendaftaran')
+                    ->label('Brosur Pendaftaran')
+                    ->directory('brosur-pendaftaran') // folder penyimpanan di storage/app/public/lampiran
+                    ->downloadable()
+                    ->preserveFilenames()
+                    ->openable(),
                 Forms\Components\FileUpload::make('lampiran')
                     ->label('Lampiran (PDF)')
                     ->acceptedFileTypes(['application/pdf'])
                     ->directory('lampiran') // folder penyimpanan di storage/app/public/lampiran
-                    ->maxSize(2048) // ukuran maksimal dalam KB (2MB)
+                    ->preserveFilenames()
                     ->downloadable()
                     ->openable()
             ]);

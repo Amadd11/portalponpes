@@ -17,7 +17,9 @@ class ProgramUnggulanResource extends Resource
 {
     protected static ?string $model = ProgramUnggulan::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-information-circle';
+
+    protected static ?string $navigationLabel = 'Program Unggulan';
 
     public static function form(Form $form): Form
     {

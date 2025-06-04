@@ -18,7 +18,9 @@ class AkademikResource extends Resource
 {
     protected static ?string $model = Akademik::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-book-open';
+
+    protected static ?string $navigationLabel = 'Akademik';
 
     public static function form(Form $form): Form
     {
@@ -69,7 +71,7 @@ class AkademikResource extends Resource
                     ->searchable(),
                 Tables\Columns\TextColumn::make('kalender_akademik')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('peratuan_akademik')
+                Tables\Columns\TextColumn::make('peraturan_akademik')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()

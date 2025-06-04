@@ -14,10 +14,6 @@ use App\Http\Controllers\PendaftaranController;
 
 Route::get('/', [FrontController::class, 'index'])->name('front.landingpage');
 
-Route::get('/berita', [BeritaController::class, 'index'])->name('berita.index');
-Route::get('/berita/search', [BeritaController::class, 'search'])->name('berita.search');
-Route::get('/berita/{slug}', [BeritaController::class, 'show'])->name('berita.show');
-
 Route::get('/sejarah', [SejarahController::class, 'index'])->name('profil.sejarah');
 Route::get('/fasilitas', [FasilitasController::class, 'index'])->name('profil.fasilitas');
 Route::get('/visimisi', [VisimisiController::class, 'index'])->name('profil.visimisi');

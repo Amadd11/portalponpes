@@ -31,7 +31,8 @@
                                             <span>{{ $artikel->tanggal_publish->translatedFormat('d F Y') }}</span>
                                         </div>
                                         <h3 class="mb-2 text-xl font-bold text-gray-800 transition hover:text-blue-600">
-                                            <a href="#">{{ Str::limit($artikel->judul, 60) }}</a>
+                                            <a
+                                                href="{{ route('informasi.artikel.show', $artikel->slug) }}">{{ Str::limit($artikel->judul, 60) }}</a>
                                         </h3>
                                         <p class="mb-4 text-gray-600">
                                             {{ Str::limit(strip_tags($artikel->isi), 120) }}
@@ -43,7 +44,7 @@
                                             class="inline-block px-3 py-1 text-xs font-semibold text-white bg-teal-700 rounded">
                                             {{ $artikel->category->nama_category ?? 'Umum' }}
                                         </span>
-                                        <a href="{{ route('berita.show', $artikel->slug) }}"
+                                        <a href="{{ route('informasi.artikel.show', $artikel->slug) }}"
                                             class="inline-flex items-center text-sm font-medium text-blue-800 hover:text-blue-800">
                                             Baca Selengkapnya
                                             <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 ml-1" fill="none"
