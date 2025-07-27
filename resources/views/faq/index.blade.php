@@ -3,12 +3,13 @@
 @section('content')
     <!-- Hero Section -->
     <section class="relative overflow-hidden h-96">
-        <img src="{{ asset('assets/images/header-sejarah.jpg') }}" alt="Header Gallery"
+        <img src="{{ asset('assets/images/header-sejarah.jpg') }}" alt="Header Sejarah"
             class="absolute inset-0 object-cover w-full h-full">
+
         <div
             class="absolute inset-0 flex flex-col items-center justify-center text-center text-white bg-black bg-opacity-50">
-            <h1 class="mb-2 text-4xl font-bold md:text-5xl">FAQ</h1>
-            <p class="text-sm md:text-base">
+            <h1 class="mb-2 text-4xl font-bold">FAQ</h1>
+            <p class="text-sm">
                 <a href="{{ url('/') }}" class="text-yellow-400 hover:underline">Beranda</a>
                 <span class="mx-2">></span>
                 <span>FAQ</span>
