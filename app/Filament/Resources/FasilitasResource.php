@@ -3,7 +3,6 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\FasilitasResource\Pages;
-use App\Filament\Resources\FasilitasResource\RelationManagers;
 use App\Models\Fasilitas;
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -19,22 +18,40 @@ class FasilitasResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-building-office-2';
 
+    protected static ?string $navigationGroup = 'Profil';
+
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('nama_fasilitas')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\Textarea::make('deskripsi')
-                    ->required()
-                    ->columnSpanFull(),
-                Forms\Components\FileUpload::make('gambar_url')
-                    ->disk('public')
-                    ->image()
-                    ->openable()
-                    ->reorderable()
-                    ->directory('fasilitas'),
+                Forms\Components\Grid::make(3)
+                    ->schema([
+                        // Kolom utama untuk detail fasilitas
+                        Forms\Components\Section::make('Detail Fasilitas')
+                            ->schema([
+                                Forms\Components\TextInput::make('nama_fasilitas')
+                                    ->label('Nama Fasilitas')
+                                    ->required()
+                                    ->maxLength(255),
+                                Forms\Components\Textarea::make('deskripsi')
+                                    ->label('Deskripsi')
+                                    ->required()
+                                    ->rows(5),
+                            ])
+                            ->columnSpan(2),
+
+                        // Kolom samping untuk gambar
+                        Forms\Components\Section::make('Media')
+                            ->schema([
+                                Forms\Components\FileUpload::make('gambar_url')
+                                    ->label('Gambar Fasilitas')
+                                    ->image()
+                                    ->directory('fasilitas')
+                                    ->required()
+                                    ->imageEditor(),
+                            ])
+                            ->columnSpan(1),
+                    ]),
             ]);
     }
 
@@ -42,29 +59,28 @@ class FasilitasResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('nama_fasilitas')
-                    ->searchable(),
                 Tables\Columns\ImageColumn::make('gambar_url')
-                    ->label('Gambar'),
-                Tables\Columns\TextColumn::make('deleted_at')
-                    ->dateTime()
+                    ->label('Gambar')
+                    ->square(),
+                Tables\Columns\TextColumn::make('nama_fasilitas')
+                    ->label('Nama Fasilitas')
+                    ->searchable()
                     ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('created_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
+                    ->wrap(),
                 Tables\Columns\TextColumn::make('updated_at')
+                    ->label('Terakhir Diperbarui')
                     ->dateTime()
                     ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
+                    ->since(),
             ])
             ->filters([
                 Tables\Filters\TrashedFilter::make(),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make()
+                Tables\Actions\DeleteAction::make(),
+                Tables\Actions\RestoreAction::make(),
+                Tables\Actions\ForceDeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

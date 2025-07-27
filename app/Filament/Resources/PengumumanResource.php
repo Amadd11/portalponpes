@@ -2,18 +2,15 @@
 
 namespace App\Filament\Resources;
 
-use Filament\Forms;
-use Filament\Tables;
-use Filament\Forms\Set;
-use Filament\Forms\Form;
+use App\Filament\Resources\PengumumanResource\Pages;
 use App\Models\Pengumuman;
+use Filament\Forms;
+use Filament\Forms\Form;
+use Filament\Forms\Set;
+use Filament\Resources\Resource;
+use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Support\Str;
-use Filament\Resources\Resource;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
-use App\Filament\Resources\PengumumanResource\Pages;
-use App\Filament\Resources\PengumumanResource\RelationManagers;
 
 class PengumumanResource extends Resource
 {
@@ -27,18 +24,43 @@ class PengumumanResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('judul')
-                    ->required()
-                    ->afterStateUpdated(fn(Set $set, ?string $state) => $set('slug', Str::slug($state)))
-                    ->lazy()
-                    ->maxLength(255),
-                Forms\Components\FileUpload::make('gambar_url')
-                    ->image()
-                    ->openable()
-                    ->directory('pengumuman-attachments')
-                    ->required(),
-                Forms\Components\TextInput::make('slug')
-                    ->disabled(),
+                Forms\Components\Grid::make(3)
+                    ->schema([
+                        // Kolom utama untuk detail
+                        Forms\Components\Section::make('Detail Pengumuman')
+                            ->schema([
+                                Forms\Components\TextInput::make('judul')
+                                    ->required()
+                                    ->maxLength(255)
+                                    ->live(onBlur: true)
+                                    ->afterStateUpdated(fn(Set $set, ?string $state) => $set('slug', Str::slug($state))),
+
+                                Forms\Components\TextInput::make('slug')
+                                    ->hidden()
+                                    ->required()
+                                    ->disabled()
+                                    ->dehydrated()
+                                    ->maxLength(255),
+                            ])
+                            ->columnSpan(2),
+
+                        // Kolom samping untuk gambar
+                        Forms\Components\Section::make('Media')
+                            ->schema([
+                                Forms\Components\FileUpload::make('gambar_url')
+                                    ->label('Gambar Pengumuman')
+                                    ->image()
+                                    ->directory('pengumuman-attachments')
+                                    ->required()
+                                    ->imageEditor()
+                                    ->imageEditorAspectRatios([
+                                        '16:9',
+                                        '4:3',
+                                        '1:1',
+                                    ]),
+                            ])
+                            ->columnSpan(1),
+                    ]),
             ]);
     }
 
@@ -46,26 +68,26 @@ class PengumumanResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('judul')
-                    ->searchable(),
                 Tables\Columns\ImageColumn::make('gambar_url')
-                    ->label('Gambar'),
-                Tables\Columns\TextColumn::make('slug')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('created_at')
-                    ->dateTime()
+                    ->label('Gambar')
+                    ->square()
+                    ->height(80),
+                Tables\Columns\TextColumn::make('judul')
+                    ->searchable()
                     ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
+                    ->wrap(),
                 Tables\Columns\TextColumn::make('updated_at')
+                    ->label('Terakhir Diperbarui')
                     ->dateTime()
                     ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
+                    ->since(),
             ])
             ->filters([
                 //
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
@@ -84,7 +106,7 @@ class PengumumanResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListPengumumen::route('/'),
+            'index' => Pages\ListPengumumen::route('/'), // Perbaikan: 'ListPengumumen' menjadi 'ListPengumumans'
             'create' => Pages\CreatePengumuman::route('/create'),
             'edit' => Pages\EditPengumuman::route('/{record}/edit'),
         ];

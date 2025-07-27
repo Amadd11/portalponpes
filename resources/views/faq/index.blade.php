@@ -22,10 +22,14 @@
             <div class="flex flex-col gap-8 lg:flex-row">
                 <!-- FAQ Section (Left) -->
                 <div class="lg:w-2/3">
-                    <div class="mb-12 text-center">
-                        <h1 class="text-3xl font-bold text-gray-800 md:text-4xl">Frequently Asked Question</h1>
-                        <div class="w-20 h-1 mx-auto mt-4 rounded bg-primary"></div>
+                    <div class="container px-6 mx-auto">
+                        <h2 class="pl-4 text-2xl font-bold text-gray-800 uppercase border-l-4 border-teal-700">
+                            Frequently Asked Question</h2>
+                        <p class="max-w-2xl pl-4 mt-1 mb-6 text-lg italic text-gray-600">
+                            (Pertanyaan yang sering diajukan)
+                        </p>
                     </div>
+
 
                     <div class="space-y-4">
                         @foreach ($faqs as $faq)

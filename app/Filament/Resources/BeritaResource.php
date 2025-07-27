@@ -2,18 +2,15 @@
 
 namespace App\Filament\Resources;
 
-use Filament\Forms;
-use Filament\Tables;
+use App\Filament\Resources\BeritaResource\Pages;
 use App\Models\Berita;
-use Filament\Forms\Set;
+use Filament\Forms;
 use Filament\Forms\Form;
+use Filament\Forms\Set;
+use Filament\Resources\Resource;
+use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Support\Str;
-use Filament\Resources\Resource;
-use Illuminate\Database\Eloquent\Builder;
-use App\Filament\Resources\BeritaResource\Pages;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
-use App\Filament\Resources\BeritaResource\RelationManagers;
 
 class BeritaResource extends Resource
 {
@@ -23,50 +20,75 @@ class BeritaResource extends Resource
 
     protected static ?string $navigationLabel = 'Artikel/Kajian';
 
+    protected static ?string $navigationGroup = 'Artikel';
+
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                Forms\Components\Select::make('category_id')
-                    ->label('Kategori')
-                    ->relationship('category', 'nama_category')
-                    ->required(),
-                Forms\Components\TextInput::make('judul')
-                    ->required()
-                    ->afterStateUpdated(fn(Set $set, ?string $state) => $set('slug', Str::slug($state)))
-                    ->lazy()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('slug')
-                    ->disabled(),
-                Forms\Components\FileUpload::make('thumbnail')
-                    ->label('Thumbnail')
-                    ->disk('public')
-                    ->image()
-                    ->directory('berita-thumbnails')
-                    ->required(),
-                Forms\Components\RichEditor::make('isi')
-                    ->disableToolbarButtons([
-                        'blockquote', // atau tombol lain yang kamu tidak perlukan
-                    ])
-                    ->extraInputAttributes([
-                        'style' => 'text-indent: 0; margin: 0;',
-                    ])->columnSpanFull(),
-                Forms\Components\FileUpload::make('attachments')
-                    ->label('Lampiran PDF')
-                    ->disk('public')
-                    ->directory('berita-attachments')
-                    ->acceptedFileTypes(['application/pdf'])
-                    ->openable() // Bisa dibuka langsung jika PDF
-                    ->downloadable() // Aktifkan tombol download di CMS jika perlu
-                    ->multiple()
-                    ->reorderable(),
-                Forms\Components\DateTimePicker::make('tanggal_publish'),
-                Forms\Components\Select::make('status')
-                    ->options([
-                        'draft' => 'Draft',
-                        'publish' => 'Publish',
-                    ])
-                    ->required(),
+                Forms\Components\Grid::make()
+                    ->columns(3)
+                    ->schema([
+                        // Kolom Utama untuk Konten
+                        Forms\Components\Section::make('Konten Artikel')
+                            ->schema([
+                                Forms\Components\TextInput::make('judul')
+                                    ->required()
+                                    ->maxLength(255)
+                                    ->live(onBlur: true)
+                                    ->afterStateUpdated(fn(Set $set, ?string $state) => $set('slug', Str::slug($state))),
+
+                                Forms\Components\TextInput::make('slug')
+                                    ->hidden()
+                                    ->required()
+                                    ->disabled()
+                                    ->dehydrated()
+                                    ->maxLength(255),
+
+                                Forms\Components\RichEditor::make('isi')
+                                    ->required()
+                                    ->columnSpanFull()
+                                    ->disableToolbarButtons(['blockquote']),
+                            ])
+                            ->columnSpan(2),
+
+                        // Kolom Samping untuk Metadata
+                        Forms\Components\Section::make('Metadata')
+                            ->schema([
+                                Forms\Components\Select::make('category_id')
+                                    ->label('Kategori')
+                                    ->relationship('category', 'nama_category')
+                                    ->searchable()
+                                    ->required(),
+
+                                Forms\Components\FileUpload::make('thumbnail')
+                                    ->label('Thumbnail')
+                                    ->image()
+                                    ->directory('berita-thumbnails')
+                                    ->required(),
+
+                                Forms\Components\DateTimePicker::make('tanggal_publish')
+                                    ->label('Tanggal Publish')
+                                    ->default(now()),
+
+                                Forms\Components\Select::make('status')
+                                    ->options([
+                                        'draft' => 'Draft',
+                                        'publish' => 'Publish',
+                                    ])
+                                    ->required()
+                                    ->default('draft'),
+
+                                Forms\Components\FileUpload::make('attachments')
+                                    ->label('Lampiran PDF (Opsional)')
+                                    ->directory('berita-attachments')
+                                    ->acceptedFileTypes(['application/pdf'])
+                                    ->reorderable()
+                                    ->openable()
+                                    ->downloadable(),
+                            ])
+                            ->columnSpan(1),
+                    ]),
             ]);
     }
 
@@ -74,27 +96,35 @@ class BeritaResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('category.nama_category')
-                    ->sortable(),
                 Tables\Columns\TextColumn::make('judul')
-                    ->searchable(),
+                    ->searchable()
+                    ->wrap(),
                 Tables\Columns\ImageColumn::make('thumbnail')
                     ->label('Thumbnail'),
+                Tables\Columns\TextColumn::make('category.nama_category')
+                    ->label('Kategori')
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('status')
+                    ->badge()
+                    ->color(fn(string $state): string => match ($state) {
+                        'draft' => 'gray',
+                        'publish' => 'success',
+                    }),
                 Tables\Columns\TextColumn::make('tanggal_publish')
                     ->dateTime()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('status'),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('updated_at')
+                    ->label('Terakhir Diperbarui')
                     ->dateTime()
                     ->sortable()
+                    ->since()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
-                //
                 Tables\Filters\SelectFilter::make('status')
                     ->options([
                         'draft' => 'Draft',
@@ -103,7 +133,7 @@ class BeritaResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make()
+                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

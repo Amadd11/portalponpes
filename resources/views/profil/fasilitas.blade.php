@@ -15,20 +15,33 @@
             </p>
         </div>
     </section>
+
     <!-- Fasilitas Section -->
     <section class="px-8 py-12 bg-gray-50">
         <div class="container px-6 mx-auto">
             <h2 class="pl-4 mb-6 text-2xl font-bold text-gray-800 uppercase border-l-4 border-teal-700">Fasilitas Pondok
             </h2>
 
-            <div class="grid grid-cols-1 gap-6 md:grid-cols-4">
-                <!-- Card 1 -->
+            <div class="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
                 @foreach ($fasilitas as $item)
-                    <div class="p-6 transition bg-white rounded-lg shadow hover:shadow-lg">
-                        <img src="{{ asset(Storage::url($item->gambar_url)) }}" alt="Fasilitas 1"
-                            class="object-cover w-full h-40 mb-4 rounded-md">
-                        <h3 class="mb-2 text-xl font-semibold text-black">{{ $item->nama_fasilitas }}</h3>
-                        <p class="text-sm text-gray-600">{{ $item->deskripsi }}</p>
+                    <!-- Facility Card (Redesigned) -->
+                    <div
+                        class="overflow-hidden transition-all duration-300 bg-white rounded-lg shadow-md group hover:shadow-xl">
+                        <!-- Image Container with zoom effect and a fixed 4:3 aspect ratio -->
+                        <div class="relative overflow-hidden aspect-[4/3]">
+                            <img src="{{ asset(Storage::url($item->gambar_url)) }}" alt="{{ $item->nama_fasilitas }}"
+                                class="object-cover w-full h-full transition-transform duration-500 ease-in-out group-hover:scale-105">
+                        </div>
+
+                        <!-- Content Container with a top border for separation -->
+                        <div class="p-6 border-t border-gray-100">
+                            <h3 class="text-lg font-bold text-gray-800">
+                                {{ $item->nama_fasilitas }}
+                            </h3>
+                            <p class="mt-2 text-sm text-gray-600 line-clamp-3">
+                                {{ $item->deskripsi }}
+                            </p>
+                        </div>
                     </div>
                 @endforeach
             </div>

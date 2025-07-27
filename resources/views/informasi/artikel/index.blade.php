@@ -2,13 +2,13 @@
 
 @section('content')
     <!-- Main Content Section -->
-    <section class="px-8 py-16 bg-gray-50">
+    <section class="px-8 py-12 bg-gray-50 md:px-8 sm:py-16">
         <div class="container mx-auto">
-            <div class="flex flex-col gap-8 lg:flex-row">
+            <div class="flex flex-col gap-12 lg:flex-row">
                 <!-- Artikel Section (Left) -->
                 <div class="lg:w-2/3">
                     <div class="flex items-center justify-between mb-8">
-                        <h2 class="pl-4 text-3xl font-bold text-gray-800 border-l-4 border-teal-700">
+                        <h2 class="pl-4 text-2xl font-bold text-gray-800 border-l-4 border-teal-700 md:text-3xl">
                             Artikel & Kajian Terbaru
                         </h2>
                     </div>
@@ -75,44 +75,46 @@
                 </div>
 
 
-                <!-- Pengumuman Section (Right) -->
+                <!-- Sidebar Section (Right) -->
                 <div class="lg:w-1/3">
-                    <form method="GET" action="{{ route('informasi.artikel.index') }}" class="space-y-4">
-                        <!-- Filter by Category -->
-                        <div>
-                            <label for="kategori" class="block text-sm font-medium text-gray-700">Kategori</label>
-                            <select id="kategori" name="kategori"
-                                class="block w-full px-4 py-2 mt-1 border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-primary">
-                                <option value="">Semua Kategori</option>
-                                @foreach ($categories as $category)
-                                    <option value="{{ $category->id }}"
-                                        {{ request('kategori') == $category->id ? 'selected' : '' }}>
-                                        {{ $category->nama_category }}
-                                    </option>
-                                @endforeach
-                            </select>
-                        </div>
+                    <div class="p-4 mb-8 bg-white rounded-lg shadow-lg">
+                        <form method="GET" action="{{ route('informasi.artikel.index') }}" class="space-y-4">
+                            <!-- Filter by Category -->
+                            <div>
+                                <label for="kategori" class="block text-sm font-medium text-gray-700">Kategori</label>
+                                <select id="kategori" name="kategori"
+                                    class="block w-full px-4 py-2 mt-1 border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-primary">
+                                    <option value="">Semua Kategori</option>
+                                    @foreach ($categories as $category)
+                                        <option value="{{ $category->id }}"
+                                            {{ request('kategori') == $category->id ? 'selected' : '' }}>
+                                            {{ $category->nama_category }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
 
-                        <!-- Search by Title -->
-                        <div>
-                            <label for="q" class="block text-sm font-medium text-gray-700">Pencarian</label>
-                            <input type="text" id="q" name="q" value="{{ request('q') }}"
-                                class="block w-full px-4 py-2 mt-1 border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-primary"
-                                placeholder="Cari artikel...">
-                        </div>
+                            <!-- Search by Title -->
+                            <div>
+                                <label for="q" class="block text-sm font-medium text-gray-700">Pencarian</label>
+                                <input type="text" id="q" name="q" value="{{ request('q') }}"
+                                    class="block w-full px-4 py-2 mt-1 border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-primary"
+                                    placeholder="Cari artikel...">
+                            </div>
 
-                        <!-- Filter Button -->
-                        <div class="pt-2">
-                            <button type="submit"
-                                class="w-full px-6 py-2 text-white bg-teal-700 rounded-lg hover:bg-teal-800 focus:outline-none">
-                                Cari
-                            </button>
-                        </div>
-                    </form>
+                            <!-- Filter Button -->
+                            <div class="pt-2">
+                                <button type="submit"
+                                    class="w-full px-6 py-2 text-white bg-teal-700 rounded-lg hover:bg-teal-800 focus:outline-none">
+                                    Cari
+                                </button>
+                            </div>
+                        </form>
+                    </div>
 
-                    {{-- SideBar --}}
-                    <div class="relative w-full max-w-3xl mx-auto mt-10">
-                        <div class="p-6 mt-10 bg-white shadow-lg rounded-xl">
+                    {{-- SideBar Cards --}}
+                    <div class="space-y-8">
+                        <div class="p-6 bg-white shadow-lg rounded-xl">
                             <h2 class="pl-4 mb-6 text-2xl font-bold text-gray-800 border-l-4 border-teal-700">
                                 Pengumuman
                             </h2>
@@ -122,7 +124,7 @@
                                 @foreach ($pengumumans as $index => $item)
                                     <div
                                         class="absolute inset-0 flex flex-col justify-start transition-opacity duration-1000 announcement
-                        {{ $index === 0 ? 'opacity-100' : 'opacity-0' }}">
+                            {{ $index === 0 ? 'opacity-100' : 'opacity-0' }}">
                                         <!-- Lightbox anchor with fixed aspect ratio container -->
                                         <a href="{{ asset(Storage::url($item->gambar_url)) }}"
                                             data-lightbox="pengumuman-gallery" data-title="{{ $item->judul }}">
@@ -144,7 +146,7 @@
                         </div>
 
 
-                        <div class="p-6 mt-10 bg-white shadow-lg rounded-xl">
+                        <div class="p-6 bg-white shadow-lg rounded-xl">
                             <h2 class="pl-4 mb-6 text-2xl font-bold text-gray-800 border-l-4 border-primary">
                                 Artikel Lainnya
                             </h2>
@@ -161,9 +163,6 @@
                                                     class="font-semibold text-gray-800 transition group-hover:text-blue-600">
                                                     {{ Str::limit($post->judul, 60) }}
                                                 </h4>
-                                                <p class="mt-1 text-sm text-gray-600">
-                                                    {{ Str::limit(strip_tags($post->isi), 50) }}
-                                                </p>
                                                 <p class="mt-1 text-xs text-gray-500">
                                                     {{ \Carbon\Carbon::parse($post->tanggal_publish)->format('d M Y') }}
                                                 </p>
@@ -177,6 +176,7 @@
 
                 </div>
             </div>
+        </div>
     </section>
 @endsection
 

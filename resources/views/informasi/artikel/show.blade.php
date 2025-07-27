@@ -1,8 +1,8 @@
 @extends('layouts.app')
 
 @section('content')
-    <section class="px-6 py-8 bg-white lg:px-10">
-        <div class="grid grid-cols-1 gap-12 mx-auto max-w-7xl lg:grid-cols-3">
+    <section class="px-8 py-8 bg-white lg:px-10">
+        <div class="grid grid-cols-1 gap-12 mx-auto max-w-8xl lg:grid-cols-3">
 
             <!-- Artikel Utama -->
             <div class="lg:col-span-2">
@@ -15,12 +15,13 @@
                 </nav>
 
                 <!-- Title -->
-                <h1 class="text-3xl font-bold text-gray-900 md:text-4xl">{{ $artikel->judul }}</h1>
+                <h1 class="text-2xl font-bold text-gray-900 md:text-4xl">{{ $artikel->judul }}</h1>
 
                 <!-- Meta Info -->
-                <div class="flex flex-wrap items-center justify-between mt-4 text-sm text-gray-500">
+                <div
+                    class="flex flex-col items-start justify-between mt-4 text-sm text-gray-500 md:flex-row md:items-center">
                     <div class="flex items-center gap-3">
-                        <span class="px-3 py-1 text-xs font-semibold text-white bg-blue-600 rounded">
+                        <span class="px-3 py-1 text-xs font-semibold text-white rounded bg-primary">
                             {{ $artikel->category->nama_category ?? 'Umum' }}
                         </span>
                         <span class="text-gray-400">•</span>
@@ -28,9 +29,9 @@
                     </div>
 
                     <!-- Share Button -->
-                    <div class="mt-3 md:mt-0">
+                    <div class="mt-4 md:mt-0">
                         <button onclick="shareArtikel()"
-                            class="inline-flex items-center px-3 py-1 text-sm font-medium text-white bg-blue-600 rounded hover:bg-blue-700">
+                            class="inline-flex items-center px-3 py-1 text-sm font-medium text-white rounded bg-primary-dark hover:bg-blue-700">
                             <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" stroke-width="2"
                                 viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round"
@@ -45,7 +46,7 @@
                 @if ($artikel->thumbnail)
                     <div class="mt-6 overflow-hidden rounded-xl">
                         <img src="{{ Storage::url($artikel->thumbnail) }}" alt="{{ $artikel->judul }}"
-                            class="object-cover w-full h-96" loading="lazy" width="800" height="450">
+                            class="object-cover w-full h-auto max-h-[500px]" loading="lazy" width="800" height="450">
                     </div>
                 @else
                     <div
@@ -59,13 +60,13 @@
                 @endif
 
                 <!-- Article Content -->
-                <div class="mt-10 prose prose-lg max-w-none prose-blue">
+                <div class="mt-10 text-base prose prose-lg max-w-none prose-blue">
                     {!! $artikel->isi !!}
                 </div>
 
                 <!-- Lampiran -->
                 @if ($artikel->attachments)
-                    <div class="mt-10">
+                    <div class="p-4 mt-10 border-l-4 border-red-500 bg-red-50">
                         <h3 class="mb-3 text-lg font-semibold text-gray-700">Lampiran:</h3>
                         <a href="{{ Storage::url($artikel->attachments) }}" target="_blank"
                             class="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-red-600 rounded hover:bg-red-700">
@@ -89,69 +90,63 @@
             </div>
 
             <!-- Sidebar -->
-            <aside class="space-y-4">
-                <!-- Artikel Lainnya -->
-                <div class="relative w-full max-w-3xl mx-auto mt-10">
-                    <div class="p-6 mt-10 bg-white shadow-lg rounded-xl">
-                        <h2 class="pl-4 mb-6 text-2xl font-bold text-gray-800 border-l-4 border-teal-700">
-                            Pengumuman
-                        </h2>
+            <aside class="space-y-8">
+                <!-- Pengumuman -->
+                <div class="p-6 bg-white shadow-lg rounded-xl">
+                    <h2 class="pl-4 mb-6 text-2xl font-bold text-gray-800 border-l-4 border-teal-700">
+                        Pengumuman
+                    </h2>
 
-                        <div id="posterContainer"
-                            class="relative w-full h-[400px] mx-auto overflow-hidden shadow-lg rounded-xl">
-                            @foreach ($pengumumans as $index => $item)
-                                <div
-                                    class="absolute inset-0 flex flex-col justify-start transition-opacity duration-1000 announcement
-                        {{ $index === 0 ? 'opacity-100' : 'opacity-0' }}">
-                                    <!-- Lightbox anchor with fixed aspect ratio container -->
-                                    <a href="{{ asset(Storage::url($item->gambar_url)) }}"
-                                        data-lightbox="pengumuman-gallery" data-title="{{ $item->judul }}">
-                                        <div class="relative w-full h-[340px] overflow-hidden">
-                                            <img src="{{ asset(Storage::url($item->gambar_url)) }}"
-                                                alt="{{ $item->judul }}"
-                                                class="object-cover w-full h-full transition-all duration-300 rounded-t-xl brightness-75 hover:brightness-100"
-                                                style="object-position: center;">
-                                        </div>
-                                    </a>
-                                    <div
-                                        class="flex flex-col items-center justify-center px-4 py-3 text-center bg-white shadow-inner rounded-b-xl h-[60px]">
-                                        <h3 class="text-base font-semibold leading-snug text-gray-800">
-                                            {{ $item->judul }}</h3>
-                                    </div>
-                                </div>
-                            @endforeach
-                        </div>
-                    </div>
-
-                    <!-- Artikel Lainnya -->
-                    <div class="p-6 bg-white shadow-lg rounded-xl">
-                        <h2 class="pl-4 mb-6 text-2xl font-bold text-gray-800 border-l-4 border-blue-600">
-                            Artikel Lainnya
-                        </h2>
-
-                        <div class="space-y-4">
-                            @foreach ($randomPosts as $post)
-                                <a href="{{ route('informasi.artikel.show', $post->slug) }}"
-                                    class="block p-4 transition rounded-lg bg-gray-50 hover:bg-gray-100 group">
-                                    <div class="flex items-start gap-4">
-                                        <img src="{{ Storage::url($post->thumbnail) }}" alt="{{ $post->judul }}"
-                                            class="object-cover w-16 h-16 rounded group-hover:opacity-80">
-                                        <div class="flex-1">
-                                            <h4 class="font-semibold text-gray-800 transition group-hover:text-blue-600">
-                                                {{ Str::limit($post->judul, 60) }}
-                                            </h4>
-                                            <p class="mt-1 text-sm text-gray-600">
-                                                {{ Str::limit(strip_tags($post->isi), 50) }}
-                                            </p>
-                                            <p class="mt-1 text-xs text-gray-500">
-                                                {{ \Carbon\Carbon::parse($post->tanggal_publish)->format('d M Y') }}
-                                            </p>
-                                        </div>
+                    <div id="posterContainer"
+                        class="relative w-full h-[400px] mx-auto overflow-hidden shadow-lg rounded-xl">
+                        @foreach ($pengumumans as $index => $item)
+                            <div
+                                class="absolute inset-0 flex flex-col justify-start transition-opacity duration-1000 announcement
+                                {{ $index === 0 ? 'opacity-100' : 'opacity-0' }}">
+                                <a href="{{ asset(Storage::url($item->gambar_url)) }}" data-lightbox="pengumuman-gallery"
+                                    data-title="{{ $item->judul }}">
+                                    <div class="relative w-full h-[340px] overflow-hidden">
+                                        <img src="{{ asset(Storage::url($item->gambar_url)) }}" alt="{{ $item->judul }}"
+                                            class="object-cover w-full h-full transition-all duration-300 rounded-t-xl brightness-75 hover:brightness-100"
+                                            style="object-position: center;">
                                     </div>
                                 </a>
-                            @endforeach
-                        </div>
+                                <div
+                                    class="flex flex-col items-center justify-center px-4 py-3 text-center bg-white shadow-inner rounded-b-xl h-[60px]">
+                                    <h3 class="text-base font-semibold leading-snug text-gray-800">
+                                        {{ $item->judul }}</h3>
+                                </div>
+                            </div>
+                        @endforeach
                     </div>
+                </div>
+
+                <!-- Artikel Lainnya -->
+                <div class="p-6 bg-white shadow-lg rounded-xl">
+                    <h2 class="pl-4 mb-6 text-2xl font-bold text-gray-800 border-l-4 border-blue-600">
+                        Artikel Lainnya
+                    </h2>
+
+                    <div class="space-y-4">
+                        @foreach ($randomPosts as $post)
+                            <a href="{{ route('informasi.artikel.show', $post->slug) }}"
+                                class="block p-4 transition rounded-lg bg-gray-50 hover:bg-gray-100 group">
+                                <div class="flex items-start gap-4">
+                                    <img src="{{ Storage::url($post->thumbnail) }}" alt="{{ $post->judul }}"
+                                        class="object-cover w-16 h-16 rounded group-hover:opacity-80">
+                                    <div class="flex-1">
+                                        <h4 class="font-semibold text-gray-800 transition group-hover:text-blue-600">
+                                            {{ Str::limit($post->judul, 60) }}
+                                        </h4>
+                                        <p class="mt-1 text-xs text-gray-500">
+                                            {{ \Carbon\Carbon::parse($post->tanggal_publish)->format('d M Y') }}
+                                        </p>
+                                    </div>
+                                </div>
+                            </a>
+                        @endforeach
+                    </div>
+                </div>
             </aside>
 
         </div>

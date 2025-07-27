@@ -3,15 +3,12 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\FAQResource\Pages;
-use App\Filament\Resources\FAQResource\RelationManagers;
 use App\Models\FAQ;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class FAQResource extends Resource
 {
@@ -25,13 +22,19 @@ class FAQResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\Textarea::make('question')
-                    ->required()
-                    ->columnSpanFull(),
-                Forms\Components\Textarea::make('answer')
-                    ->required()
-                    ->columnSpanFull()
-                    ->rows(4),
+                Forms\Components\Section::make('Detail FAQ')
+                    ->description('Masukkan pertanyaan dan jawaban yang sering diajukan.')
+                    ->schema([
+                        Forms\Components\TextInput::make('question')
+                            ->label('Pertanyaan')
+                            ->required()
+                            ->columnSpanFull(),
+                        Forms\Components\Textarea::make('answer')
+                            ->label('Jawaban')
+                            ->required()
+                            ->rows(5)
+                            ->columnSpanFull(),
+                    ]),
             ]);
     }
 
@@ -41,22 +44,26 @@ class FAQResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('question')
                     ->label('Pertanyaan')
-                    ->limit(50)
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('created_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
+                    ->searchable()
+                    ->wrap(),
+                Tables\Columns\TextColumn::make('answer')
+                    ->label('Jawaban')
+                    ->searchable()
+                    ->limit(70)
+                    ->wrap()
+                    ->tooltip(fn(string $state): string => strip_tags($state)),
                 Tables\Columns\TextColumn::make('updated_at')
+                    ->label('Terakhir Diperbarui')
                     ->dateTime()
                     ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
+                    ->since(),
             ])
             ->filters([
                 //
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

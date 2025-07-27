@@ -19,18 +19,27 @@ class GelombangPendaftaranResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
+    protected static ?string $navigationGroup = 'Pendaftaran';
+
+    protected static ?string $navigationLabel = 'Gelombang Pendaftaran';
+
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('nama_gelombang')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\DatePicker::make('tanggal_mulai')
-                    ->required(),
-                Forms\Components\DatePicker::make('tanggal_selesai')
-                    ->required(),
-
+                Forms\Components\Section::make('Detail Gelombang')
+                    ->schema([
+                        Forms\Components\TextInput::make('nama_gelombang')
+                            ->label('Nama Gelombang')
+                            ->required()
+                            ->maxLength(255)
+                            ->columnSpanFull(),
+                        Forms\Components\DatePicker::make('tanggal_mulai')
+                            ->required(),
+                        Forms\Components\DatePicker::make('tanggal_selesai')
+                            ->required()
+                            ->after('tanggal_mulai'),
+                    ])
             ]);
     }
 
@@ -38,15 +47,16 @@ class GelombangPendaftaranResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('judul')
-                    ->searchable(),
                 Tables\Columns\TextColumn::make('nama_gelombang')
-                    ->searchable(),
+                    ->label('Nama Gelombang')
+                    ->searchable()
+                    ->sortable()
+                    ->wrap(),
                 Tables\Columns\TextColumn::make('tanggal_mulai')
-                    ->date()
+                    ->date('d M Y')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('tanggal_selesai')
-                    ->date()
+                    ->date('d M Y')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('is_active')
                     ->label('Status')

@@ -1,26 +1,46 @@
 {{-- Top Contact Bar --}}
-<div class="flex justify-between px-20 py-2 text-base text-white bg-gradient-to-r from-orange-400 to-yellow-400">
-    <div class="flex items-center gap-2">
-        <img src="{{ asset('assets/images/logo-ponpes.png') }}" alt="Logo" class="h-10">
-        <!-- Ubah ukuran h-10 ke h-20 -->
-        <span class="font-semibold uppercase font-poppins">Yayasan Maqroah
-            <br>Imam Syatibi
+<div
+    class="flex items-center justify-between px-6 py-3 text-gray-800 shadow-md bg-gradient-to-r from-amber-400 to-amber-500 md:px-20">
+    <a href="{{ url('/') }}" class="flex items-center gap-3">
+        <img src="{{ asset('assets/images/logo-yayasan.jpg') }}" alt="Logo"
+            class="object-cover rounded-full h-14 w-14">
+        <span class="font-semibold leading-tight uppercase font-poppins">
+            Yayasan Maqroah<br>Imam Syatibi
         </span>
-    </div>
+    </a>
+
 
     <div class="items-center hidden gap-4 md:flex">
-        <div class="flex items-center gap-1">
-            <span>📞</span> <span>0821 4390 1334</span>
-        </div>
-        |
-        <div class="flex items-center gap-1">
-            <span>📞</span> <span>0852 3482 5621</span>
-        </div>
+        <a href="https://instagram.com/your_username" target="_blank" class="flex items-center gap-1">
+            <img src="{{ asset('assets/logo-sosmed/instagram.png') }}" alt="Instagram" class="h-7 w-7">
+        </a>
+        <a href="https://facebook.com/your_page" target="_blank" class="flex items-center gap-1">
+            <img src="{{ asset('assets/logo-sosmed/facebook.png') }}" alt="Facebook" class="w-7 h-7">
+        </a>
+        <a href="" target="_blank" class="flex items-center gap-1">
+            <img src="{{ asset('assets/logo-sosmed/youtube.png') }}" alt="Youtube" class="w-7 h-7">
+        </a>
+
+        <span class="text-white">|</span>
+
+        <a href="https://wa.me/6282143901334" target="_blank"
+            class="flex items-center gap-1 text-black transition-colors duration-200 hover:text-white">
+            <img src="{{ asset('assets/logo-sosmed/whatsapp.png') }}" alt="WhatsApp" class="h-7 w-7">
+            <span>0821 4390 1334</span>
+        </a>
+
+        <span class="text-white">|</span>
+
+        <a href="https://wa.me/6285234825621" target="_blank"
+            class="flex items-center gap-1 text-black transition-colors duration-200 hover:text-white">
+            <img src="{{ asset('assets/logo-sosmed/whatsapp.png') }}" alt="WhatsApp" class="h-7 w-7">
+            <span>0852 3482 5621</span>
+        </a>
     </div>
 </div>
 
 <!-- Navbar -->
-<nav class="relative z-50 bg-white shadow-md" x-data="{ open: false }">
+<nav class="relative z-50 font-semibold bg-white shadow-md" x-data="{ open: false }">
     <div class="container flex items-center justify-between px-4 py-8 mx-auto">
         <!-- Hamburger (mobile) -->
         <button @click="open = !open" class="z-10 md:hidden focus:outline-none">
@@ -53,7 +73,8 @@
                         class="block px-4 py-2 text-black hover:bg-gray-100">Sejarah</a>
                     <a href="{{ route('profil.fasilitas') }}"
                         class="block px-4 py-2 text-black hover:bg-gray-100">Fasilitas</a>
-                    <a href="{{ route('profil.visimisi') }}" class="block px-4 py-2 text-black hover:bg-gray-100">Visi &
+                    <a href="{{ route('profil.visimisi') }}" class="block px-4 py-2 text-black hover:bg-gray-100">Visi
+                        &
                         Misi</a>
                 </div>
             </li>
@@ -78,7 +99,7 @@
                 </div>
             </li>
             <li><a href="{{ route('gallery.foto') }}">GALLERY</a></li>
-            <li><a href="#">BROSUR</a></li>
+            <li><a href="{{ route('brosur.index') }}">BROSUR</a></li>
             <li><a href="{{ route('faq.index') }}">FAQ</a></li>
         </ul>
     </div>
@@ -133,7 +154,7 @@
             </li>
 
             <li><a href="{{ route('gallery.foto') }}" class="block py-2 border-b">GALLERY</a></li>
-            <li><a href="#" class="block py-2 border-b">BROSUR</a></li>
+            <li><a href="{{ route('brosur.index') }}" class="block py-2 border-b">BROSUR</a></li>
             <li><a href="{{ route('faq.index') }}" class="block py-2 border-b">FAQ</a></li>
         </ul>
     </div>

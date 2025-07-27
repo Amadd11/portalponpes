@@ -3,7 +3,6 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\GalleryResource\Pages;
-use App\Filament\Resources\GalleryResource\RelationManagers;
 use App\Models\Gallery;
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -19,23 +18,44 @@ class GalleryResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-photo';
 
-    protected static ?string $navigationLabel = 'Gallery';
+    protected static ?string $navigationLabel = 'Galeri';
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('judul')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\Textarea::make('deskripsi')
-                    ->columnSpanFull(),
-                Forms\Components\FileUpload::make('gambar_url')
-                    ->label('Gambar')
-                    ->image()
-                    ->openable()
-                    ->reorderable()
-                    ->directory('gallery'),
+                Forms\Components\Grid::make(3)
+                    ->schema([
+                        // Kolom utama untuk detail
+                        Forms\Components\Section::make('Detail Foto')
+                            ->schema([
+                                Forms\Components\TextInput::make('judul')
+                                    ->label('Judul Foto')
+                                    ->required()
+                                    ->maxLength(255),
+                                Forms\Components\Textarea::make('deskripsi')
+                                    ->label('Deskripsi (Opsional)')
+                                    ->rows(5),
+                            ])
+                            ->columnSpan(2),
+
+                        // Kolom samping untuk gambar
+                        Forms\Components\Section::make('Media')
+                            ->schema([
+                                Forms\Components\FileUpload::make('gambar_url')
+                                    ->label('Gambar')
+                                    ->image()
+                                    ->directory('gallery')
+                                    ->required()
+                                    ->imageEditor()
+                                    ->imageEditorAspectRatios([
+                                        '16:9',
+                                        '4:3',
+                                        '1:1',
+                                    ]),
+                            ])
+                            ->columnSpan(1),
+                    ]),
             ]);
     }
 
@@ -43,24 +63,27 @@ class GalleryResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('judul')
-                    ->searchable(),
                 Tables\Columns\ImageColumn::make('gambar_url')
-                    ->label('Gambar'),
-                Tables\Columns\TextColumn::make('created_at')
-                    ->dateTime()
+                    ->label('Gambar')
+                    ->square()
+                    ->height(80),
+                Tables\Columns\TextColumn::make('judul')
+                    ->label('Judul')
+                    ->searchable()
                     ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
+                    ->wrap(),
                 Tables\Columns\TextColumn::make('updated_at')
+                    ->label('Terakhir Diperbarui')
                     ->dateTime()
                     ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
+                    ->since(),
             ])
             ->filters([
                 //
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

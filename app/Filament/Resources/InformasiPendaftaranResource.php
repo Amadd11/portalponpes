@@ -22,6 +22,9 @@ class InformasiPendaftaranResource extends Resource
 
     protected static ?string $navigationLabel = 'Informasi Pendaftaran';
 
+    protected static ?string $navigationGroup = 'Pendaftaran';
+
+
     public static function form(Form $form): Form
     {
         return $form

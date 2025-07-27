@@ -1,21 +1,24 @@
 document.addEventListener("DOMContentLoaded", function () {
-    const items = document.querySelectorAll(".announcement");
-    if (items.length > 0) {
-        let current = 0;
+    const container = document.getElementById("posterContainer");
 
-        const rotateAnnouncements = () => {
-            items[current].classList.remove("opacity-100");
-            items[current].classList.add("opacity-0");
+    // Lanjutkan hanya jika kontainer pengumuman ada di halaman ini
+    if (container) {
+        const announcements = container.querySelectorAll(".announcement");
+        let currentIndex = 0;
 
-            current = (current + 1) % items.length;
+        if (announcements.length > 1) {
+            setInterval(() => {
+                // Sembunyikan slide yang sekarang
+                announcements[currentIndex].classList.remove("opacity-100");
+                announcements[currentIndex].classList.add("opacity-0");
 
-            items[current].classList.remove("opacity-0");
-            items[current].classList.add("opacity-100");
-        };
+                // Pindah ke slide berikutnya
+                currentIndex = (currentIndex + 1) % announcements.length;
 
-        const intervalId = setInterval(rotateAnnouncements, 5000);
-
-        // Cleanup on component unmount
-        return () => clearInterval(intervalId);
+                // Tampilkan slide berikutnya
+                announcements[currentIndex].classList.remove("opacity-0");
+                announcements[currentIndex].classList.add("opacity-100");
+            }, 5000); // Ganti gambar setiap 5 detik
+        }
     }
 });

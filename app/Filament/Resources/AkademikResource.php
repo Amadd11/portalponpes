@@ -2,17 +2,14 @@
 
 namespace App\Filament\Resources;
 
-use Filament\Forms;
-use Filament\Tables;
+use App\Filament\Resources\AkademikResource\Pages;
 use App\Models\Akademik;
+use Filament\Forms;
 use Filament\Forms\Form;
+use Filament\Resources\Resource;
+use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Support\Str;
-use Filament\Resources\Resource;
-use Illuminate\Database\Eloquent\Builder;
-use App\Filament\Resources\AkademikResource\Pages;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
-use App\Filament\Resources\AkademikResource\RelationManagers;
 
 class AkademikResource extends Resource
 {
@@ -27,34 +24,39 @@ class AkademikResource extends Resource
         return $form
             ->schema([
                 Forms\Components\RichEditor::make('deskripsi')
+                    ->label('Deskripsi')
                     ->required()
                     ->columnSpanFull(),
-                Forms\Components\FileUpload::make('kurikulum')
-                    ->label('Kurikulum')
-                    ->acceptedFileTypes(['application/pdf'])
-                    ->directory('kurikulum')
-                    ->preserveFilenames()  // folder penyimpanan di storage/app/public/lampiran
-                    ->downloadable()
-                    ->openable(),
-                Forms\Components\FileUpload::make('kalender_akademik')
-                    ->required()
-                    ->acceptedFileTypes([
-                        'application/pdf',
-                        'image/jpeg',
-                        'image/png',
-                        'image/webp',
-                    ])
-                    ->directory('kalender-akademik')
-                    ->preserveFilenames()  // folder penyimpanan di storage/app/public/lampiran
-                    ->downloadable()
-                    ->openable(),
-                Forms\Components\FileUpload::make('peraturan_akademik')
-                    ->required()
-                    ->acceptedFileTypes(['application/pdf'])
-                    ->directory('peraturan-akademik')
-                    ->preserveFilenames()  // folder penyimpanan di storage/app/public/lampiran
-                    ->downloadable()
-                    ->openable(),
+                Forms\Components\Section::make('Dokumen Akademik')
+                    ->description('Unggah dokumen-dokumen pendukung akademik.')
+                    ->schema([
+                        Forms\Components\FileUpload::make('kurikulum')
+                            ->label('Kurikulum (PDF)')
+                            ->directory('akademik/kurikulum')
+                            ->preserveFilenames()
+                            ->downloadable()
+                            ->openable()
+                            ->nullable() // Ditambahkan untuk mengizinkan penghapusan file
+                            ->acceptedFileTypes(['application/pdf']),
+
+                        Forms\Components\FileUpload::make('kalender_akademik')
+                            ->label('Kalender Akademik (PDF/Gambar)')
+                            ->directory('akademik/kalender')
+                            ->preserveFilenames()
+                            ->downloadable()
+                            ->openable()
+                            ->nullable() // Ditambahkan untuk mengizinkan penghapusan file
+                            ->acceptedFileTypes(['application/pdf', 'image/jpeg', 'image/png', 'image/webp']),
+
+                        Forms\Components\FileUpload::make('peraturan_akademik')
+                            ->label('Peraturan Akademik (PDF)')
+                            ->directory('akademik/peraturan')
+                            ->preserveFilenames()
+                            ->downloadable()
+                            ->openable()
+                            ->nullable() // Ditambahkan untuk mengizinkan penghapusan file
+                            ->acceptedFileTypes(['application/pdf']),
+                    ])->columns(3),
             ]);
     }
 
@@ -63,36 +65,54 @@ class AkademikResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('deskripsi')
-                    ->formatStateUsing(fn($state) => Str::limit(strip_tags($state), 100))
-                    ->tooltip(fn($state) => strip_tags($state))
+                    ->label('Ringkasan Deskripsi')
+                    ->searchable()
                     ->wrap()
-                    ->searchable(),
+                    ->limit(100)
+                    ->formatStateUsing(fn($state) => strip_tags($state))
+                    ->tooltip(fn($state) => strip_tags($state)),
+
                 Tables\Columns\TextColumn::make('kurikulum')
-                    ->searchable(),
+                    ->label('Kurikulum')
+                    ->formatStateUsing(fn(?string $state): string => $state ? 'Tersedia' : 'Tidak Ada')
+                    ->badge()
+                    ->color(fn(?string $state): string => $state ? 'success' : 'gray'),
+
                 Tables\Columns\TextColumn::make('kalender_akademik')
-                    ->searchable(),
+                    ->label('Kalender')
+                    ->formatStateUsing(fn(?string $state): string => $state ? 'Tersedia' : 'Tidak Ada')
+                    ->badge()
+                    ->color(fn(?string $state): string => $state ? 'success' : 'gray'),
+
                 Tables\Columns\TextColumn::make('peraturan_akademik')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('created_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
+                    ->label('Peraturan')
+                    ->formatStateUsing(fn(?string $state): string => $state ? 'Tersedia' : 'Tidak Ada')
+                    ->badge()
+                    ->color(fn(?string $state): string => $state ? 'success' : 'gray'),
+
                 Tables\Columns\TextColumn::make('updated_at')
+                    ->label('Terakhir Diperbarui')
                     ->dateTime()
                     ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
+                    ->since(),
             ])
             ->filters([
                 //
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
             ]);
+    }
+
+    public static function canCreate(): bool
+    {
+        return Akademik::count() === 0;
     }
 
     public static function getRelations(): array

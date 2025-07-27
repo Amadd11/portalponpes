@@ -3,7 +3,7 @@
         <!-- Kiri -->
         <div class="flex flex-col space-y-4 lg:w-1/2">
             <div class="flex items-center space-x-4">
-                <img src="{{ asset('assets/images/logo-ponpes.png') }}" alt="Logo SLB" class="w-20 h-20">
+                <img src="{{ asset('assets/images/logo-yayasan.jpg') }}" alt="Logo SLB" class="w-20 h-20">
                 <h3 class="text-2xl font-bold text-gray-300">Yayasan Maqroah Imam Syatibi
                     <br>
                 </h3>

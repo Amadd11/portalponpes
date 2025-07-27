@@ -21,16 +21,22 @@ class CategoryResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
+    protected static ?string $navigationGroup = 'Artikel';
+
+    protected static ?string $navigationLabel = 'Category';
+
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
                 Forms\Components\TextInput::make('nama_category')
+                    ->label('Nama Category')
                     ->required()
                     ->afterStateUpdated(fn(Set $set, ?string $state) => $set('slug', Str::slug($state)))
                     ->lazy()
                     ->maxLength(255),
                 Forms\Components\TextInput::make('slug')
+                    ->hidden()
                     ->disabled(),
             ]);
     }
@@ -40,8 +46,7 @@ class CategoryResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('nama_category')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('slug')
+                    ->label('Nama Category')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('deleted_at')
                     ->dateTime()
@@ -61,6 +66,7 @@ class CategoryResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
