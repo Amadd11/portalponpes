@@ -22,14 +22,14 @@ class BeritaController extends Controller
             })
             ->where('status', 'publish')
             ->orderBy('tanggal_publish', 'desc')
-            ->paginate(5); // Default 5, bisa diubah via request
+            ->paginate(6); // Default 5, bisa diubah via request
 
         $randomPosts = Berita::where('status', 'publish')
             ->inRandomOrder()
             ->limit(5)
             ->get();
 
-        $pengumumans = Pengumuman::latest()->take(5)->get();
+        $pengumumans = Pengumuman::latest()->take(4)->get();
 
 
         return view('informasi.artikel.index', compact(
@@ -42,7 +42,7 @@ class BeritaController extends Controller
 
     public function show($slug)
     {
-        $artikel = Berita::with(['category', 'author'])
+        $artikel = Berita::with(['category',])
             ->where('slug', $slug)
             ->where('status', 'publish')
             ->firstOrFail();
@@ -53,7 +53,7 @@ class BeritaController extends Controller
             ->limit(5)
             ->get();
 
-        $pengumumans = Pengumuman::latest()->take(5)->get();
+        $pengumumans = Pengumuman::latest()->take(4)->get();
 
         return view('informasi.artikel.show', compact(
             'artikel',

@@ -24,6 +24,10 @@ class InformasiPendaftaranResource extends Resource
 
     protected static ?string $navigationGroup = 'Pendaftaran';
 
+    protected static ?string $modelLabel = 'Informasi Pendaftaran';
+
+    protected static ?string $pluralModelLabel = 'Informasi Pendaftaran';
+
 
     public static function form(Form $form): Form
     {
@@ -31,14 +35,11 @@ class InformasiPendaftaranResource extends Resource
             ->schema([
                 Forms\Components\RichEditor::make('syarat_pendaftaran')
                     ->label('Syarat Pendaftaran')
-                    ->columnSpanFull()
-                    ->required(),
+                    ->columnSpanFull(),
                 Forms\Components\RichEditor::make('alur_pendaftaran')
-                    ->required()
                     ->columnSpanFull()
                     ->label('Alur Pendaftaran'),
                 Forms\Components\RichEditor::make('biaya_pendaftaran')
-                    ->required()
                     ->columnSpanFull()
                     ->label('Biaya Pendaftaran'),
                 Forms\Components\TextInput::make('link_pendaftaran')

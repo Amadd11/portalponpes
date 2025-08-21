@@ -23,6 +23,10 @@ class SejarahResource extends Resource
 
     protected static ?string $navigationGroup = 'Profil';
 
+    protected static ?string $modelLabel = 'Sejarah';
+
+    protected static ?string $pluralModelLabel = 'Sejarah';
+
     public static function form(Form $form): Form
     {
         return $form
@@ -84,6 +88,7 @@ class SejarahResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
@@ -97,6 +102,11 @@ class SejarahResource extends Resource
         return [
             //
         ];
+    }
+
+    public static function canCreate(): bool
+    {
+        return Sejarah::count() === 0;
     }
 
     public static function getPages(): array

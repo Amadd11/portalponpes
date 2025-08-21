@@ -18,10 +18,10 @@ class AdminSeeder extends Seeder
         $adminRole = Role::firstOrCreate(['name' => 'admin']);
 
         $admin = User::updateOrCreate(
-            ['email' => 'admin@sekolah.com'],
+            ['email' => 'admin@mail.com'],
             [
-                'name' => 'Admin Sekolah',
-                'password' => bcrypt('password123'),
+                'name' => 'Admin Pondok',
+                'password' => bcrypt('m4qro4h1m4msy4t1b1'),
             ]
         );
 

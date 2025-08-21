@@ -2,15 +2,17 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\ProgramUnggulanResource\Pages;
-use App\Models\ProgramUnggulan;
 use Filament\Forms;
-use Filament\Forms\Form;
-use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Forms\Set;
+use Filament\Forms\Form;
 use Filament\Tables\Table;
+use Illuminate\Support\Str;
+use App\Models\ProgramUnggulan;
+use Filament\Resources\Resource;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use App\Filament\Resources\ProgramUnggulanResource\Pages;
 
 class ProgramUnggulanResource extends Resource
 {
@@ -22,6 +24,10 @@ class ProgramUnggulanResource extends Resource
 
     protected static ?string $navigationGroup = 'Profil';
 
+    protected static ?string $modelLabel = 'Program Unggulan';
+
+    protected static ?string $pluralModelLabel = 'Program Unggulan';
+
     public static function form(Form $form): Form
     {
         return $form
@@ -32,14 +38,23 @@ class ProgramUnggulanResource extends Resource
                         Forms\Components\Section::make('Detail Program')
                             ->schema([
                                 Forms\Components\TextInput::make('nama_program')
-                                    ->label('Nama Program')
                                     ->required()
-                                    ->maxLength(255),
-                                Forms\Components\Textarea::make('deskripsi')
-                                    ->label('Deskripsi')
-                                    ->rows(5)
                                     ->maxLength(255)
-                                    ->required(),
+                                    ->live(onBlur: true)
+                                    ->afterStateUpdated(fn(Set $set, ?string $state) => $set('slug', Str::slug($state))),
+                                Forms\Components\TextInput::make('slug')
+                                    ->hidden()
+                                    ->required()
+                                    ->disabled()
+                                    ->dehydrated(),
+                                Forms\Components\Textarea::make('deskripsi')
+                                    ->label('Deskripsi Singkat')
+                                    ->required()
+                                    ->maxLength(255)
+                                    ->columnSpanFull(),
+                                Forms\Components\RichEditor::make('deskripsi_panjang')
+                                    ->label('Deskripsi Panjang (Detail)')
+                                    ->columnSpanFull(),
                             ])
                             ->columnSpan(2),
 
@@ -52,6 +67,8 @@ class ProgramUnggulanResource extends Resource
                                     ->directory('logo-program-unggulan')
                                     ->required()
                                     ->imageEditor()
+                                    ->acceptedFileTypes(['image/png'])
+                                    ->hint('Hanya file PNG yang diperbolehkan.')
                                     ->avatar(),
                             ])
                             ->columnSpan(1),

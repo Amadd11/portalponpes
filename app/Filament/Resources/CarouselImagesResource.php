@@ -19,6 +19,10 @@ class CarouselImagesResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-camera';
 
+    protected static ?string $modelLabel = 'Carousel Image';
+
+    protected static ?string $pluralModelLabel = 'Carousel Images';
+
     public static function form(Form $form): Form
     {
         return $form
@@ -63,6 +67,11 @@ class CarouselImagesResource extends Resource
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
             ]);
+    }
+
+    public static function canCreate(): bool
+    {
+        return CarouselImages::count() < 5;
     }
 
     public static function getRelations(): array

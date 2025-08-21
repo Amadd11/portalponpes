@@ -14,7 +14,7 @@ class FAQController extends Controller
     {
 
         $faqs = FAQ::orderBy('question', 'asc')->get();
-        $pengumumans = Pengumuman::latest()->take(5)->get();
+        $pengumumans = Pengumuman::latest()->take(4)->get();
         $randomPosts = Berita::where('status', 'publish')
             ->inRandomOrder()
             ->limit(5)

@@ -37,7 +37,7 @@
                         class="overflow-hidden transition-all duration-300 bg-white border border-gray-200 rounded-lg shadow-md group hover:shadow-xl hover:-translate-y-1">
                         <a href="{{ Storage::url($brosur->gambar) }}" data-lightbox="brosur"
                             data-title="{{ $brosur->judul }}">
-                            <div class="relative overflow-hidden aspect-[3/4]">
+                            <div class="relative overflow-hidden aspect-[9/16]">
                                 <img src="{{ Storage::url($brosur->gambar) }}" alt="{{ $brosur->judul }}"
                                     class="object-cover w-full h-full transition-transform duration-500 ease-in-out group-hover:scale-105">
                             </div>

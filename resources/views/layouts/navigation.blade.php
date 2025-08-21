@@ -11,30 +11,31 @@
 
 
     <div class="items-center hidden gap-4 md:flex">
-        <a href="https://instagram.com/your_username" target="_blank" class="flex items-center gap-1">
+        <a href="https://www.instagram.com/maqroahimamsyatibi/ " target="_blank" class="flex items-center gap-1">
             <img src="{{ asset('assets/logo-sosmed/instagram.png') }}" alt="Instagram" class="h-7 w-7">
         </a>
-        <a href="https://facebook.com/your_page" target="_blank" class="flex items-center gap-1">
+        <a href="https://www.facebook.com/share/1KQM1cR85b/" target="_blank" class="flex items-center gap-1">
             <img src="{{ asset('assets/logo-sosmed/facebook.png') }}" alt="Facebook" class="w-7 h-7">
         </a>
-        <a href="" target="_blank" class="flex items-center gap-1">
+        <a href="https://youtube.com/@maqroahimamsyatibi?si=U1W8RlqY61tTTqEZ" target="_blank"
+            class="flex items-center gap-1">
             <img src="{{ asset('assets/logo-sosmed/youtube.png') }}" alt="Youtube" class="w-7 h-7">
         </a>
 
         <span class="text-white">|</span>
 
-        <a href="https://wa.me/6282143901334" target="_blank"
+        <a href="https://wa.me/6285807042025" target="_blank"
             class="flex items-center gap-1 text-black transition-colors duration-200 hover:text-white">
             <img src="{{ asset('assets/logo-sosmed/whatsapp.png') }}" alt="WhatsApp" class="h-7 w-7">
-            <span>0821 4390 1334</span>
+            <span>+62 858-0704-2025</span>
         </a>
 
         <span class="text-white">|</span>
 
-        <a href="https://wa.me/6285234825621" target="_blank"
+        <a href="https://wa.me/6285176709523" target="_blank"
             class="flex items-center gap-1 text-black transition-colors duration-200 hover:text-white">
             <img src="{{ asset('assets/logo-sosmed/whatsapp.png') }}" alt="WhatsApp" class="h-7 w-7">
-            <span>0852 3482 5621</span>
+            <span>+62 851-7670-9523</span>
         </a>
     </div>
 </div>
@@ -92,10 +93,12 @@
                 <div
                     class="absolute z-30 invisible py-2 mt-2 transition-all duration-200 translate-y-2 bg-white rounded shadow opacity-0 w-70 group-hover:opacity-100 group-hover:visible group-hover:translate-y-0">
                     <a href="{{ route('informasi.pendaftaran') }}"
-                        class="block px-4 py-2 text-black hover:bg-gray-100">Pendaftaran</a>
+                        class="block px-4 py-2 text-black hover:bg-gray-100">SPMB</a>
                     <a href="{{ route('informasi.artikel.index') }}"
                         class="block px-4 py-2 text-black hover:bg-gray-100 whitespace-nowrap">Artikel
                         dan Kajian</a>
+                    <a href="{{ route('informasi.pengumuman') }}"
+                        class="block px-4 py-2 text-black hover:bg-gray-100 whitespace-nowrap">Pengumuman</a>
                 </div>
             </li>
             <li><a href="{{ route('gallery.foto') }}">GALLERY</a></li>
@@ -148,8 +151,9 @@
                     </svg>
                 </button>
                 <div x-show="infoOpen" x-collapse class="pl-4 text-sm text-gray-700">
-                    <a href="{{ route('informasi.pendaftaran') }}" class="block py-1">Pendaftaran</a>
+                    <a href="{{ route('informasi.pendaftaran') }}" class="block py-1">SPMB</a>
                     <a href="{{ route('informasi.artikel.index') }}" class="block py-1">Artikel dan Kajian</a>
+                    <a href="{{ route('informasi.pengumuman') }}" class="block py-1">Pengumuman</a>
                 </div>
             </li>
 

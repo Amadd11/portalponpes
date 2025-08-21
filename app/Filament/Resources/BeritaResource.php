@@ -22,6 +22,10 @@ class BeritaResource extends Resource
 
     protected static ?string $navigationGroup = 'Artikel';
 
+    protected static ?string $modelLabel = 'Artikel/Kajian';
+
+    protected static ?string $pluralModelLabel = 'Artikel/Kajian';
+
     public static function form(Form $form): Form
     {
         return $form
@@ -58,19 +62,18 @@ class BeritaResource extends Resource
                                 Forms\Components\Select::make('category_id')
                                     ->label('Kategori')
                                     ->relationship('category', 'nama_category')
-                                    ->searchable()
                                     ->required(),
 
                                 Forms\Components\FileUpload::make('thumbnail')
                                     ->label('Thumbnail')
                                     ->image()
-                                    ->directory('berita-thumbnails')
-                                    ->required(),
-
+                                    ->directory('berita-thumbnails'),
+                                Forms\Components\TextInput::make('youtube_link')
+                                    ->label('Link Video YouTube')
+                                    ->helperText('Isi ini JIKA Anda ingin menampilkan video, bukan gambar thumbnail.'),
                                 Forms\Components\DateTimePicker::make('tanggal_publish')
                                     ->label('Tanggal Publish')
                                     ->default(now()),
-
                                 Forms\Components\Select::make('status')
                                     ->options([
                                         'draft' => 'Draft',

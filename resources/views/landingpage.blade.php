@@ -37,7 +37,7 @@
 
                 <!-- Tombol-tombol ditaruh dalam flex-row -->
                 <div class="flex flex-wrap justify-center gap-4 mt-10">
-                    @if ($informasiPendaftaran->brosur_pendaftaran)
+                    @if ($informasiPendaftaran && $informasiPendaftaran->brosur_pendaftaran)
                         <a href="{{ asset('storage/' . $informasiPendaftaran->brosur_pendaftaran) }}" download
                             class="px-6 py-2 text-base font-semibold text-white transition duration-300 border-2 border-yellow-600 rounded-xl hover:bg-yellow-600/30 hover:text-white">
                             Download Brosur
@@ -46,7 +46,7 @@
 
                     <a href="{{ route('informasi.pendaftaran') }}"
                         class="px-6 py-2 text-base font-semibold text-white transition duration-300 border-2 border-yellow-600 rounded-xl hover:bg-yellow-600/30 hover:text-white">
-                        Informasi Pendaftaran
+                        Informasi SPMB
                     </a>
 
                     @if ($informasiPendaftaran && $informasiPendaftaran->link_pendaftaran)
@@ -56,6 +56,7 @@
                         </a>
                     @endif
                 </div>
+
             </div>
         </div>
     </section>
@@ -87,7 +88,7 @@
             <!-- Header Utama Bagian -->
             <div class="mb-12 text-center md:mb-16">
                 <h2 class="text-3xl font-bold text-teal-800 md:text-3xl">
-                    Lembaga Pendidikan
+                    Program Pendidikan
                 </h2>
                 <div class="w-40 h-1 mx-auto mt-2 bg-primary"></div>
                 <p class="max-w-3xl mx-auto mt-4 text-base text-gray-600 md:text-lg">
@@ -100,48 +101,49 @@
             <div class="space-y-12 md:space-y-20">
 
                 <!-- Sub-Bagian: Lembaga Pendidikan -->
-                <div>
-                    <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 md:gap-10">
-                        @foreach ($lembagaPendidikan as $lembaga)
-                            <!-- Kartu Lembaga -->
+                <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 md:gap-10">
+                    @foreach ($lembagaPendidikan as $lembaga)
+                        <!-- Kartu Lembaga sekarang menjadi sebuah link -->
+                        <a href="{{ route('lembaga.show', $lembaga->slug) }}"
+                            class="block p-8 text-center transition-all duration-500 bg-white border-b-4 border-gray-200 shadow-lg rounded-xl hover:shadow-2xl hover:border-teal-500 hover:-translate-y-2">
+
+                            <!-- Logo/Icon -->
                             <div
-                                class="p-8 text-center transition-all duration-500 bg-white border-b-4 border-gray-200 shadow-lg rounded-xl hover:shadow-2xl hover:border-teal-500 hover:-translate-y-2">
-                                <!-- Logo/Icon -->
-                                <div
-                                    class="inline-flex items-center justify-center w-24 h-24 p-4 mx-auto bg-teal-100 rounded-full">
-                                    <img src="{{ asset(Storage::url($lembaga->logo)) }}"
-                                        alt="Logo {{ $lembaga->nama_lembaga }}" class="object-contain">
-                                </div>
-                                <h4 class="mt-6 text-xl font-bold text-gray-900">{{ $lembaga->nama_lembaga }}</h4>
-                                <p class="mt-2 text-sm text-gray-600">{{ $lembaga->deskripsi }}</p>
+                                class="inline-flex items-center justify-center w-24 h-24 p-4 mx-auto bg-teal-100 rounded-full">
+                                <img src="{{ asset(Storage::url($lembaga->logo)) }}" alt="Logo {{ $lembaga->nama_lembaga }}"
+                                    class="object-contain">
                             </div>
-                        @endforeach
-                    </div>
+
+                            <h4 class="mt-6 text-xl font-bold text-gray-900">{{ $lembaga->nama_lembaga }}</h4>
+                            <p class="mt-2 text-sm text-gray-600">{{ $lembaga->deskripsi }}</p>
+                        </a>
+                    @endforeach
                 </div>
 
                 <!-- Sub-Bagian: Program Unggulan -->
                 <div>
                     <h3 class="mt-8 mb-8 text-2xl font-bold tracking-widest text-center uppercase text-amber-800 md:mb-10">
-                        Program
-                        Unggulan</h3>
+                        Program Unggulan
+                    </h3>
                     <div class="flex flex-wrap justify-center gap-4 md:gap-8">
                         @foreach ($programUnggulan as $program)
-                            <!-- Kartu Program -->
-                            <div
+                            <!-- Kartu Program sekarang menjadi sebuah link -->
+                            <a href="{{ route('program.show', $program->slug) }}"
                                 class="flex flex-col items-center p-6 text-center transition-all duration-500 bg-white border-b-4 border-gray-200 shadow-lg w-52 rounded-xl hover:shadow-2xl hover:border-amber-500 hover:-translate-y-2">
                                 <!-- Logo/Icon -->
                                 <div
                                     class="inline-flex items-center justify-center w-20 h-20 p-3 rounded-full bg-amber-100">
-                                    <img src="{{ asset(Storage::url($program->logo)) }}" alt="{{ $program->nama_program }}"
-                                        class="object-contain">
+                                    <img src="{{ asset(Storage::url($program->logo)) }}"
+                                        alt="{{ $program->nama_program }}" class="object-contain">
                                 </div>
-                                <span
-                                    class="mt-4 font-semibold text-center text-gray-800">{{ $program->nama_program }}</span>
-                            </div>
+                                <h4 class="mt-4 font-bold text-center text-gray-900">{{ $program->nama_program }}</h4>
+                                <p class="mt-2 text-xs text-gray-600">
+                                    {{ $program->deskripsi }}
+                                </p>
+                            </a>
                         @endforeach
                     </div>
                 </div>
-
             </div>
         </div>
     </section>
@@ -231,7 +233,7 @@
                         <p class="text-center"><strong>بسم الله الرحمن الرحيم</strong></p>
                         <p>Assalamu’alaikum Warahmatullahi Wabarakatuh</p>
                         <p>Segala puji bagi Allah Subhanahu wata’ala atas berkat rahmat dan karunia-Nya kami dapat
-                            meluncurkan situs web resmi <strong>Madrasah Ibnul Awadhi Al Islamiyyah (MIAA)</strong>.</p>
+                            meluncurkan situs web resmi <strong>Yayasan Maqroah Imam Syatibi</strong>.</p>
                         <p>Situs ini bertujuan memperkenalkan dan mempublikasikan informasi pendidikan kami agar bisa
                             diakses secara luas, cepat, dan efisien 24 jam.</p>
                         <p>Kami berkomitmen menghadirkan pendidikan yang unggul dalam Al-Qur’an, akhlak, dan kepribadian.
@@ -252,10 +254,9 @@
                         class="relative w-full h-[400px] mx-auto overflow-hidden shadow-lg rounded-xl">
                         @foreach ($pengumumans as $index => $item)
                             <div
-                                class="absolute inset-0 flex flex-col justify-start transition-opacity duration-1000 announcement
-                            {{ $index === 0 ? 'opacity-100' : 'opacity-0' }}">
-                                <a href="{{ asset(Storage::url($item->gambar_url)) }}" data-lightbox="pengumuman-gallery"
-                                    data-title="{{ $item->judul }}">
+                                class="announcement absolute inset-0 flex flex-col justify-start transition-opacity duration-1000 ease-in-out {{ $index === 0 ? 'opacity-100 z-10' : 'opacity-0 z-0' }}">
+
+                                <a href="{{ route('pengumuman.show', $item->slug) }}">
                                     <div class="relative w-full h-[340px] overflow-hidden">
                                         <img src="{{ asset(Storage::url($item->gambar_url)) }}"
                                             alt="{{ $item->judul }}"
@@ -263,15 +264,18 @@
                                             style="object-position: center;">
                                     </div>
                                 </a>
+
                                 <div
                                     class="flex flex-col items-center justify-center px-4 py-3 text-center bg-white shadow-inner rounded-b-xl h-[60px]">
-                                    <h3 class="text-base font-semibold leading-snug text-gray-800">{{ $item->judul }}
+                                    <h3 class="text-base font-semibold leading-snug text-gray-800">
+                                        {{ $item->judul }}
                                     </h3>
                                 </div>
                             </div>
                         @endforeach
                     </div>
                 </div>
+
             </div>
         </div>
     </section>
@@ -292,7 +296,11 @@
                         <img src="{{ asset(Storage::url($berita->thumbnail)) }}" alt="Berita 1"
                             class="object-cover w-full h-60" width="400" height="240">
                         <div class="p-4">
-                            <h3 class="mb-2 text-lg font-semibold text-gray-800">{{ $berita->judul }}</h3>
+                            <h3 class="mb-2 text-lg font-semibold text-gray-800 transition-colors hover:text-blue-800">
+                                <a href="{{ route('informasi.artikel.show', $berita->slug) }}">
+                                    {{ $berita->judul }}
+                                </a>
+                            </h3>
                             <p class="mb-3 text-sm text-gray-600">{{ Str::limit(strip_tags($berita->isi), 250) }}</p>
                             <a href="{{ route('informasi.artikel.show', $berita->slug) }}"
                                 class="text-sm font-medium text-teal-600 hover:underline">Baca

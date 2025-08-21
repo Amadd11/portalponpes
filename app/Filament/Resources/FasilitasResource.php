@@ -20,6 +20,10 @@ class FasilitasResource extends Resource
 
     protected static ?string $navigationGroup = 'Profil';
 
+    protected static ?string $modelLabel = 'Fasilitas';
+
+    protected static ?string $pluralModelLabel = 'Fasilitas';
+
     public static function form(Form $form): Form
     {
         return $form

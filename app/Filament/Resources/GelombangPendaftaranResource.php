@@ -23,6 +23,10 @@ class GelombangPendaftaranResource extends Resource
 
     protected static ?string $navigationLabel = 'Gelombang Pendaftaran';
 
+    protected static ?string $modelLabel = 'Gelombang Pendaftaran';
+
+    protected static ?string $pluralModelLabel = 'Gelombang Pendaftaran';
+
     public static function form(Form $form): Form
     {
         return $form

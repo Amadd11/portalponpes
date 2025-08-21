@@ -2,15 +2,16 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\PengumumanResource\Pages;
-use App\Models\Pengumuman;
 use Filament\Forms;
-use Filament\Forms\Form;
-use Filament\Forms\Set;
-use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Forms\Set;
+use Filament\Forms\Form;
+use App\Models\Pengumuman;
 use Filament\Tables\Table;
 use Illuminate\Support\Str;
+use Filament\Resources\Resource;
+use Illuminate\Support\Facades\Storage;
+use App\Filament\Resources\PengumumanResource\Pages;
 
 class PengumumanResource extends Resource
 {
@@ -19,6 +20,10 @@ class PengumumanResource extends Resource
     protected static ?string $navigationIcon = 'heroicon-o-bell-alert';
 
     protected static ?string $navigationLabel = 'Pengumuman';
+
+    protected static ?string $modelLabel = 'Pengumuman';
+
+    protected static ?string $pluralModelLabel = 'Pengumuman';
 
     public static function form(Form $form): Form
     {
@@ -41,6 +46,9 @@ class PengumumanResource extends Resource
                                     ->disabled()
                                     ->dehydrated()
                                     ->maxLength(255),
+                                Forms\Components\RichEditor::make('deskripsi')
+                                    ->label('Deskripsi Pengumuman')
+                                    ->columnSpanFull(),
                             ])
                             ->columnSpan(2),
 
@@ -54,10 +62,10 @@ class PengumumanResource extends Resource
                                     ->required()
                                     ->imageEditor()
                                     ->imageEditorAspectRatios([
-                                        '16:9',
                                         '4:3',
-                                        '1:1',
-                                    ]),
+                                    ])
+                                    ->hint('Hanya Ukuran Gambar 4:3 (400x300)px.'),
+
                             ])
                             ->columnSpan(1),
                     ]),

@@ -19,6 +19,12 @@ class BrosurResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
+    protected static ?string $navigationLabel = 'Brosur';
+
+    protected static ?string $modelLabel = 'Brosur';
+
+    protected static ?string $pluralModelLabel = 'Brosur';
+
     public static function form(Form $form): Form
     {
         return $form
@@ -28,10 +34,12 @@ class BrosurResource extends Resource
                     ->required()
                     ->maxLength(255),
                 Forms\Components\FileUpload::make('gambar')
+                    ->label('Upload Brosur (Rasio 9:16)')
                     ->required()
                     ->image()
                     ->directory('brosur-thumbnails')
                     ->required()
+                    ->hint('Hanya Ukuran 9:16 yang diperbolehkan.')
                     ->imageEditor(),
             ]);
     }

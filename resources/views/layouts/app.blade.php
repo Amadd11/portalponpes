@@ -41,17 +41,22 @@
 
 <body class="overflow-x-hidden text-gray-800 bg-gray-100 font-poppins">
 
-    @include('layouts.navigation')
-    <!-- Main Content -->
+    {{-- Tambahkan div pembungkus ini --}}
+    <div class="overflow-x-hidden">
 
-    <main>
-        @yield('content')
-    </main>
+        @include('layouts.navigation')
+
+        <!-- Main Content -->
+        <main>
+            @yield('content')
+        </main>
+
+        @include('layouts.footer')
+
+    </div>
 
     @stack('scripts')
     @stack('auto-scroll-gallery')
-
-    @include('layouts.footer')
 
 </body>
 

@@ -16,6 +16,7 @@ return new class extends Migration
             $table->longText('syarat_pendaftaran')->nullable();
             $table->longText('alur_pendaftaran')->nullable();
             $table->longText('biaya_pendaftaran')->nullable();
+            $table->string('brosur_pendaftaran')->nullable();  // Menambahkan kolom baru
             $table->string('link_pendaftaran')->nullable();
             $table->string('lampiran')->nullable();
             $table->timestamps();

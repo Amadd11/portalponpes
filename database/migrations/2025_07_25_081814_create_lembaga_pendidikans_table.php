@@ -14,8 +14,10 @@ return new class extends Migration
         Schema::create('lembaga_pendidikans', function (Blueprint $table) {
             $table->id();
             $table->string('nama_lembaga');
+            $table->string('slug');
+            $table->string('deskripsi')->nullable();
+            $table->text('deskripsi_panjang')->nullable();
             $table->string('logo');
-            $table->string('deskripsi');
             $table->timestamps();
         });
     }

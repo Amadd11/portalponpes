@@ -18,6 +18,10 @@ class FAQResource extends Resource
 
     protected static ?string $navigationLabel = 'FAQ';
 
+    protected static ?string $modelLabel = 'FAQ';
+
+    protected static ?string $pluralModelLabel = 'FAQ';
+
     public static function form(Form $form): Form
     {
         return $form

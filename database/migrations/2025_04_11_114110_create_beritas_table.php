@@ -15,7 +15,8 @@ return new class extends Migration
             $table->id();
             $table->foreignId('category_id')->constrained('categories')->onDelete('cascade');
             $table->string('judul');
-            $table->string('thumbnail');
+            $table->string('thumbnail')->nullable();
+            $table->string('youtube_link')->nullable();
             $table->string('slug')->unique();
             $table->text('isi');
             $table->longText('attachments')->nullable();

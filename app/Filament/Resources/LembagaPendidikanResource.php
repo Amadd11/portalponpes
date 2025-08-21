@@ -2,15 +2,19 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\LembagaPendidikanResource\Pages;
-use App\Models\LembagaPendidikan;
 use Filament\Forms;
-use Filament\Forms\Form;
-use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Forms\Set;
+use Filament\Forms\Form;
 use Filament\Tables\Table;
+use Illuminate\Support\Str;
+use Filament\Resources\Resource;
+use App\Models\LembagaPendidikan;
 use Illuminate\Database\Eloquent\Builder;
+use RelationManagers\CabangsRelationManager;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use App\Filament\Resources\LembagaPendidikanResource\Pages;
+use App\Filament\Resources\LembagaPendidikanResource\RelationManagers\CabangsRelationManager as RelationManagersCabangsRelationManager;
 
 class LembagaPendidikanResource extends Resource
 {
@@ -21,6 +25,10 @@ class LembagaPendidikanResource extends Resource
     protected static ?string $navigationGroup = 'Profil';
 
     protected static ?string $navigationLabel = 'Lembaga Pendidikan';
+
+    protected static ?string $modelLabel = 'Lembaga Pendidikan';
+
+    protected static ?string $pluralModelLabel = 'Lembaga Pendidikan';
 
     public static function form(Form $form): Form
     {
@@ -34,12 +42,23 @@ class LembagaPendidikanResource extends Resource
                                 Forms\Components\TextInput::make('nama_lembaga')
                                     ->label('Nama Lembaga')
                                     ->required()
+                                    ->live(onBlur: true)
+                                    ->afterStateUpdated(fn(Set $set, ?string $state) => $set('slug', Str::slug($state)))
+                                    ->maxLength(255),
+                                Forms\Components\TextInput::make('slug')
+                                    ->hidden()
+                                    ->required()
+                                    ->disabled()
+                                    ->dehydrated()
                                     ->maxLength(255),
                                 Forms\Components\TextInput::make('deskripsi')
                                     ->label('Deskripsi Singkat')
                                     ->helperText('Contoh: Setingkat Sekolah Dasar (SD)')
                                     ->required()
                                     ->maxLength(255),
+                                Forms\Components\RichEditor::make('deskripsi_panjang')
+                                    ->label('Deskripsi Panjang (Detail)')
+                                    ->columnSpanFull(),
                             ])
                             ->columnSpan(2),
 
@@ -52,7 +71,9 @@ class LembagaPendidikanResource extends Resource
                                     ->directory('logo-lembaga-pendidikan')
                                     ->required()
                                     ->imageEditor()
-                                    ->avatar(),
+                                    ->avatar()
+                                    ->acceptedFileTypes(['image/png'])
+                                    ->hint('Hanya file PNG yang diperbolehkan.'),
                             ])
                             ->columnSpan(1),
                     ]),
@@ -96,10 +117,12 @@ class LembagaPendidikanResource extends Resource
             ]);
     }
 
+
+
     public static function getRelations(): array
     {
         return [
-            //
+            RelationManagersCabangsRelationManager::class, // <-- Tambahkan ini
         ];
     }
 

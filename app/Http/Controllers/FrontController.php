@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\FAQ;
 use App\Models\Berita;
+use App\Models\Cabang;
 use App\Models\Gallery;
 use App\Models\Fasilitas;
 use App\Models\Pengumuman;
@@ -25,7 +26,7 @@ class FrontController extends Controller
         $images = CarouselImages::all();
         $faqs = FAQ::all();
         $programUnggulan = ProgramUnggulan::all();
-        $pengumumans = Pengumuman::latest()->take(5)->get();
+        $pengumumans = Pengumuman::latest()->take(4)->get();
         $informasiPendaftaran = InformasiPendaftaran::latest()
             ->select('link_pendaftaran', 'brosur_pendaftaran')
             ->first();
@@ -62,8 +63,8 @@ class FrontController extends Controller
         $queryLower = Str::lower($query);
 
         // Redirect langsung jika keyword tertentu ditemukan
-        if (Str::contains($queryLower, ['pendaftaran', 'daftar siswa', 'info pendaftaran'])) {
-            return redirect()->route('pendaftaran.index');
+        if (Str::contains($queryLower, ['pendaftaran', 'daftar siswa', 'info pendaftaran', 'daftar'])) {
+            return redirect()->route('informasi.pendaftaran');
         }
 
         if (Str::contains($queryLower, ['fasilitas', 'gedung', 'ruangan', 'asrama', 'kelas'])) {
@@ -96,5 +97,54 @@ class FrontController extends Controller
             ->concat($programResults);
 
         return view('searchresults', compact('results', 'query'));
+    }
+
+    public function showLembaga($slug)
+    {
+        $lembaga = LembagaPendidikan::where('slug', $slug)->firstOrFail();
+
+        // Data untuk sidebar (opsional, sesuaikan dengan kebutuhan)
+        $pengumumans = Pengumuman::latest()->take(4)->get();
+        $randomPosts = Berita::where('status', 'publish')->inRandomOrder()->take(5)->get();
+
+        return view('lembaga.show', compact('lembaga', 'pengumumans', 'randomPosts'));
+    }
+
+
+    public function showPengumuman($slug)
+    {
+        // Mengambil data pengumuman yang sedang dilihat
+        $pengumuman = Pengumuman::where('slug', $slug)->firstOrFail();
+
+        // Mengambil 5 pengumuman lain untuk sidebar (kecuali yang sedang dilihat)
+        $otherPengumumans = Pengumuman::where('slug', '!=', $slug)->latest()->take(5)->get();
+
+        // Mengambil data artikel acak untuk sidebar
+        $randomPosts = Berita::where('status', 'publish')->inRandomOrder()->take(5)->get();
+
+        // Kirim semua data ke view
+        return view('pengumuman.show', compact('pengumuman', 'otherPengumumans', 'randomPosts'));
+    }
+    public function showCabang($slug)
+    {
+        // Ambil data cabang beserta relasi ke lembaga pendidikannya
+        $cabang = Cabang::with('lembagaPendidikan')->where('slug', $slug)->firstOrFail();
+
+        // Data untuk sidebar (sesuaikan dengan kebutuhan)
+        $pengumumans = Pengumuman::latest()->take(4)->get();
+        $randomPosts = Berita::where('status', 'publish')->inRandomOrder()->take(5)->get();
+
+        return view('lembaga.cabang.details', compact('cabang', 'pengumumans', 'randomPosts'));
+    }
+
+    public function showProgram($slug)
+    {
+        $program = ProgramUnggulan::where('slug', $slug)->firstOrFail();
+
+        // Data untuk sidebar (sesuaikan dengan kebutuhan)
+        $pengumumans = Pengumuman::latest()->take(4)->get();
+        $randomPosts = Berita::where('status', 'publish')->inRandomOrder()->take(5)->get();
+
+        return view('program.show', compact('program', 'pengumumans', 'randomPosts'));
     }
 }
